@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Abhineet — Data Analyst Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #F7F5F2;
+    --surface: #FFFFFF;
+    --text: #1A1A18;
+    --muted: #7A7A72;
+    --accent: #2563EB;
+    --accent-light: #EFF4FF;
+    --border: #E4E0DA;
+    --tag-bg: #EDEAE5;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.2rem 3rem;
+    background: rgba(247, 245, 242, 0.88);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    opacity: 0; animation: fadeDown 0.6s 0.1s ease forwards;
+  }
+  .nav-logo {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 0.82rem;
+    letter-spacing: 0.04em;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+
+  /* LAYOUT */
+  .container { max-width: 900px; margin: 0 auto; padding: 0 2rem; }
+
+  /* HERO */
+  .hero {
+    padding: 8rem 0 5rem;
+    opacity: 0; animation: fadeUp 0.7s 0.3s ease forwards;
+  }
+  .hero-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.2rem;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 6vw, 4.2rem);
+    font-weight: 600;
+    line-height: 1.15;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.02em;
+  }
+  .hero h1 span { color: var(--accent); }
+  .hero-sub {
+    font-size: 1.05rem;
+    color: var(--muted);
+    max-width: 520px;
+    line-height: 1.75;
+    margin-bottom: 2rem;
+  }
+  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.65rem 1.4rem;
+    border-radius: 4px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: pointer; border: none;
+  }
+  .btn-primary {
+    background: var(--text); color: #fff;
+  }
+  .btn-primary:hover { background: var(--accent); }
+  .btn-outline {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+  .btn-outline:hover { border-color: var(--text); }
+
+  /* DIVIDER */
+  .divider { height: 1px; background: var(--border); margin: 1rem 0; }
+
+  /* SECTIONS */
+  section { padding: 4rem 0; opacity: 0; animation: fadeUp 0.6s ease forwards; }
+  section:nth-of-type(2) { animation-delay: 0.15s; }
+  section:nth-of-type(3) { animation-delay: 0.25s; }
+  section:nth-of-type(4) { animation-delay: 0.35s; }
+  section:nth-of-type(5) { animation-delay: 0.45s; }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.9rem;
+    font-weight: 600;
+    margin-bottom: 2.5rem;
+    letter-spacing: -0.01em;
+  }
+
+  /* ABOUT */
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+  .about-text p { color: var(--muted); margin-bottom: 1rem; font-size: 0.95rem; }
+  .about-stats { display: flex; flex-direction: column; gap: 1.2rem; }
+  .stat-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.1rem 1.4rem;
+  }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .stat-label { font-size: 0.78rem; color: var(--muted); margin-top: 0.2rem; letter-spacing: 0.04em; }
+
+  /* SKILLS */
+  .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .skill-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.4rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .skill-card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 2px 16px rgba(37, 99, 235, 0.07);
+  }
+  .skill-icon {
+    font-size: 1.4rem;
+    margin-bottom: 0.7rem;
+  }
+  .skill-name {
+    font-weight: 500;
+    font-size: 0.9rem;
+    margin-bottom: 0.3rem;
+  }
+  .skill-desc { font-size: 0.78rem; color: var(--muted); }
+
+  /* PROJECTS */
+  .projects-stack { display: flex; flex-direction: column; gap: 1.5rem; }
+  .project-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 2rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    position: relative;
+  }
+  .project-card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 4px 24px rgba(37, 99, 235, 0.07);
+  }
+  .project-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.9rem; }
+  .project-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    max-width: 70%;
+  }
+  .project-status {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.7rem;
+    border-radius: 20px;
+  }
+  .status-done { background: #DCFCE7; color: #166534; }
+  .status-wip { background: #FEF9C3; color: #854D0E; }
+  .project-desc { color: var(--muted); font-size: 0.88rem; margin-bottom: 1.2rem; line-height: 1.7; }
+  .project-highlights { margin-bottom: 1.4rem; }
+  .project-highlights li {
+    font-size: 0.83rem;
+    color: var(--muted);
+    padding: 0.2rem 0 0.2rem 1rem;
+    position: relative;
+  }
+  .project-highlights li::before {
+    content: '→';
+    position: absolute; left: 0;
+    color: var(--accent);
+    font-size: 0.75rem;
+  }
+  .project-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .tag {
+    background: var(--tag-bg);
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+    padding: 0.3rem 0.7rem;
+    border-radius: 4px;
+  }
+  .project-link {
+    margin-top: 1.4rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+    transition: gap 0.2s;
+  }
+  .project-link:hover { gap: 0.65rem; }
+
+  /* CONTACT */
+  .contact-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  .contact-text h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    margin-bottom: 0.4rem;
+  }
+  .contact-text p { color: var(--muted); font-size: 0.88rem; }
+  .contact-links { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem 0;
+    text-align: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 640px) {
+    nav { padding: 1rem 1.2rem; }
+    .nav-links { gap: 1.2rem; }
+    .hero { padding: 6.5rem 0 3rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .skills-grid { grid-template-columns: 1fr 1fr; }
+    .contact-box { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Abhineet · DA Portfolio</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="container">
+  <div class="hero">
+    <div class="hero-label">Data Analyst · Bengaluru, India</div>
+    <h1>Turning raw data<br/>into <span>clear decisions.</span></h1>
+    <p class="hero-sub">
+      B.Tech in Computer Science and Technology (Presidency University, Bengaluru) — building end-to-end analytics solutions from SQL-driven exploration to interactive Power BI dashboards.
+    </p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn btn-primary">View Projects →</a>
+      <a href="#contact" class="btn btn-outline">Get in Touch</a>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <div class="divider"></div>
+  <section id="about">
+    <div class="section-label">01 / About</div>
+    <div class="section-title">A bit about me</div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>
+          I'm a Data Analyst based in Bengaluru, with a B.Tech in Computer Science and Technology from Presidency University, Bengaluru. I'm passionate about extracting meaningful signals from complex datasets and communicating them in ways that drive action.
+        </p>
+        <p>
+          My workflow spans the full analytics stack — Python for exploration and cleaning, SQL for multi-table querying, and Power BI for storytelling through visuals. I focus on building projects that are reproducible, well-documented, and business-relevant.
+        </p>
+        <p>
+          I'm actively seeking Data Analyst internship and full-time opportunities in Bengaluru.
+        </p>
+      </div>
+      <div class="about-stats">
+        <div class="stat-item">
+          <div class="stat-num">2</div>
+          <div class="stat-label">End-to-end portfolio projects</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">3</div>
+          <div class="stat-label">Core tools: Python · SQL · Power BI</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">∞</div>
+          <div class="stat-label">Curiosity for data-driven problems</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <div class="divider"></div>
+  <section id="skills">
+    <div class="section-label">02 / Skills</div>
+    <div class="section-title">What I work with</div>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-icon">🐍</div>
+        <div class="skill-name">Python</div>
+        <div class="skill-desc">Pandas, NumPy, Matplotlib, Seaborn — EDA, data cleaning, hypothesis framing.</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🗄️</div>
+        <div class="skill-name">SQL</div>
+        <div class="skill-desc">Complex joins, CTEs, window functions — multi-table analysis and business queries.</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">📊</div>
+        <div class="skill-name">Power BI</div>
+        <div class="skill-desc">DAX measures, interactive dashboards, KPI cards, conditional formatting, YoY analysis.</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">📓</div>
+        <div class="skill-name">Jupyter Notebooks</div>
+        <div class="skill-desc">Narrative-driven analysis with clean structure and reproducible code.</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🔗</div>
+        <div class="skill-name">GitHub</div>
+        <div class="skill-desc">Version control, structured project READMEs, and portfolio presentation.</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">📐</div>
+        <div class="skill-name">Excel / Sheets</div>
+        <div class="skill-desc">Pivot tables, data validation, quick exploratory analysis.</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">📈</div>
+        <div class="skill-name">Tableau</div>
+        <div class="skill-desc">Interactive dashboards, data visualization, and visual storytelling.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <div class="divider"></div>
+  <section id="projects">
+    <div class="section-label">03 / Projects</div>
+    <div class="section-title">End-to-end work</div>
+    <div class="projects-stack">
+
+      <!-- Project 1 -->
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-title">Superstore Profitability Analysis</div>
+          <span class="project-status status-done">Completed</span>
+        </div>
+        <p class="project-desc">
+          An end-to-end profitability deep-dive on the Superstore retail dataset — identifying loss-driving sub-categories, regional performance gaps, and discount strategy flaws to surface actionable business recommendations.
+        </p>
+        <ul class="project-highlights">
+          <li>Python EDA with narrative hypothesis framing and visual storytelling</li>
+          <li>SQL analysis using CTEs and window functions for ranking and trend detection</li>
+          <li>Power BI dashboard with YoY DAX measures, conditional formatting, and Key Findings page</li>
+          <li>Identified Tables and Bookcases as persistent loss-makers driving -$17K+ in losses</li>
+        </ul>
+        <div class="project-tags">
+          <span class="tag">Python</span>
+          <span class="tag">Pandas</span>
+          <span class="tag">SQL</span>
+          <span class="tag">Power BI</span>
+          <span class="tag">DAX</span>
+          <span class="tag">EDA</span>
+        </div>
+        <a href="https://github.com/ABHINEET2612/Superstore_Profitability_Analysis" target="_blank" class="project-link">View on GitHub →</a>
+      </div>
+
+      <!-- Project 2 -->
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-title">Olist Brazilian E-Commerce Analysis</div>
+          <span class="project-status status-wip">In Progress</span>
+        </div>
+        <p class="project-desc">
+          A multi-table SQL-first exploration of the Olist e-commerce dataset — analysing seller performance, delivery delays, customer satisfaction, and revenue patterns across Brazil's diverse market.
+        </p>
+        <ul class="project-highlights">
+          <li>Complex multi-table SQL joins across 9 relational tables before Python EDA</li>
+          <li>Delivery delay analysis correlated with review scores by region and seller</li>
+          <li>Revenue trend analysis with cohort-level customer retention insights</li>
+          <li>Final Power BI dashboard for executive-level storytelling</li>
+        </ul>
+        <div class="project-tags">
+          <span class="tag">Python</span>
+          <span class="tag">SQL</span>
+          <span class="tag">Joins</span>
+          <span class="tag">Power BI</span>
+          <span class="tag">E-Commerce</span>
+        </div>
+        <a href="https://github.com/ABHINEET2612" target="_blank" class="project-link">View on GitHub →</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <div class="divider"></div>
+  <section id="contact">
+    <div class="section-label">04 / Contact</div>
+    <div class="section-title">Let's connect</div>
+    <div class="contact-box">
+      <div class="contact-text">
+        <h3>Open to DA roles in Bengaluru</h3>
+        <p>Looking for internship or full-time Data Analyst opportunities.<br/>Feel free to reach out via any of the links below.</p>
+      </div>
+      <div class="contact-links">
+        <a href="https://www.linkedin.com/in/abhineet-gaur-b11a0a280/" target="_blank" class="btn btn-primary">LinkedIn</a>
+        <a href="https://github.com/ABHINEET2612" target="_blank" class="btn btn-outline">GitHub</a>
+        <a href="/cdn-cgi/l/email-protection#6106001413000309080f0404155357505321060c00080d4f020e0c" class="btn btn-outline">Email</a>
+        <a href="https://x.com/ga_abt122601" target="_blank" class="btn btn-outline">X / Twitter</a>
+        <a href="https://www.instagram.com/gaur_abhineet/" target="_blank" class="btn btn-outline">Instagram</a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    Abhineet · Data Analyst · Bengaluru &nbsp;·&nbsp; Built with intention, no
