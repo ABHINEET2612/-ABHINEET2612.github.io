@@ -1,496 +1,494 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Abhineet — Data Analyst Portfolio</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Abhineet Gaur — Data Analyst</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
 <style>
-  :root {
-    --bg: #F7F5F2;
-    --surface: #FFFFFF;
-    --text: #1A1A18;
-    --muted: #7A7A72;
-    --accent: #2563EB;
-    --accent-light: #EFF4FF;
-    --border: #E4E0DA;
-    --tag-bg: #EDEAE5;
-  }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#08080F;
+  --surface:#0F0F1A;
+  --card:#131320;
+  --border:#1C1C2E;
+  --text:#E2E2F0;
+  --muted:#6B6B8A;
+  --accent:#2563EB;
+  --accent-dim:rgba(37,99,235,0.1);
+  --accent-glow:rgba(37,99,235,0.28);
+  --accent-light:#60A5FA;
+}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'JetBrains Mono',monospace;
+  background:var(--bg);color:var(--text);
+  line-height:1.65;font-size:14px;
+  -webkit-font-smoothing:antialiased;
+  cursor:none;overflow-x:hidden;
+}
+a,button{cursor:none;}
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* CURSOR */
+.cur-dot{width:7px;height:7px;background:var(--accent);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:background .15s;}
+.cur-ring{width:32px;height:32px;border:1.5px solid rgba(37,99,235,.45);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .2s,height .2s,border-color .2s;}
+.cur-ring.big{width:46px;height:46px;border-color:var(--accent);}
 
-  html { scroll-behavior: smooth; }
+/* PRELOADER */
+#preloader{position:fixed;inset:0;background:var(--bg);z-index:10000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:22px;transition:opacity .7s ease,visibility .7s ease;}
+#preloader.hide{opacity:0;visibility:hidden;pointer-events:none;}
+.pre-logo{font-family:'Syne',sans-serif;font-size:4.5rem;font-weight:800;color:var(--accent);letter-spacing:.06em;animation:preP 1.4s ease-in-out infinite;}
+@keyframes preP{0%,100%{opacity:1;text-shadow:0 0 40px var(--accent-glow);}50%{opacity:.25;text-shadow:none;}}
+.pre-bar-w{width:180px;height:2px;background:var(--border);border-radius:2px;overflow:hidden;}
+.pre-bar-f{height:100%;background:var(--accent);border-radius:2px;animation:fillB 2s ease forwards;}
+@keyframes fillB{from{width:0}to{width:100%}}
+.pre-sub{font-size:.6rem;letter-spacing:.3em;color:var(--muted);text-transform:uppercase;}
 
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    font-size: 15px;
-    line-height: 1.65;
-    -webkit-font-smoothing: antialiased;
-  }
+/* BLOBS */
+.blob{position:fixed;border-radius:50%;filter:blur(90px);pointer-events:none;z-index:0;}
+.b1{width:520px;height:520px;background:var(--accent);opacity:.055;top:-180px;left:-120px;animation:bA 14s ease-in-out infinite;}
+.b2{width:360px;height:360px;background:#4F46E5;opacity:.05;bottom:80px;right:-100px;animation:bB 17s ease-in-out infinite;}
+.b3{width:260px;height:260px;background:var(--accent);opacity:.04;top:45%;left:42%;animation:bC 20s ease-in-out infinite;}
+@keyframes bA{0%,100%{transform:translate(0,0)scale(1)}50%{transform:translate(70px,90px)scale(1.1)}}
+@keyframes bB{0%,100%{transform:translate(0,0)scale(1)}50%{transform:translate(-60px,-70px)scale(.93)}}
+@keyframes bC{0%,100%{transform:translate(-50%,-50%)scale(1)}50%{transform:translate(-50%,-56%)scale(1.07)}}
 
-  /* NAV */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 1.2rem 3rem;
-    background: rgba(247, 245, 242, 0.88);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--border);
-    opacity: 0; animation: fadeDown 0.6s 0.1s ease forwards;
-  }
-  .nav-logo {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.8rem;
-    letter-spacing: 0.12em;
-    color: var(--muted);
-    text-transform: uppercase;
-  }
-  .nav-links { display: flex; gap: 2rem; list-style: none; }
-  .nav-links a {
-    text-decoration: none;
-    color: var(--muted);
-    font-size: 0.82rem;
-    letter-spacing: 0.04em;
-    transition: color 0.2s;
-  }
-  .nav-links a:hover { color: var(--text); }
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:1.4rem 3rem;background:rgba(8,8,15,.65);backdrop-filter:blur(18px);border-bottom:1px solid transparent;transition:padding .3s,border-color .3s,background .3s;}
+nav.scrolled{padding:.8rem 3rem;border-color:var(--border);background:rgba(8,8,15,.9);}
+.nav-logo{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:800;color:var(--text);letter-spacing:.05em;}
+.nav-logo span{color:var(--accent);}
+.nav-links{display:flex;gap:2.2rem;list-style:none;}
+.nav-links a{text-decoration:none;color:var(--muted);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;position:relative;transition:color .2s;}
+.nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;right:0;height:1px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .22s;}
+.nav-links a:hover{color:var(--text);}
+.nav-links a:hover::after{transform:scaleX(1);}
 
-  /* LAYOUT */
-  .container { max-width: 900px; margin: 0 auto; padding: 0 2rem; }
+/* SCROLL TO TOP */
+#toTop{position:fixed;bottom:2rem;right:2rem;width:38px;height:38px;background:var(--accent);border:none;border-radius:4px;color:#fff;font-size:1.1rem;display:flex;align-items:center;justify-content:center;cursor:none;opacity:0;visibility:hidden;z-index:99;transition:opacity .3s,visibility .3s,transform .2s;}
+#toTop.show{opacity:1;visibility:visible;}
+#toTop:hover{transform:translateY(-4px);}
 
-  /* HERO */
-  .hero {
-    padding: 8rem 0 5rem;
-    opacity: 0; animation: fadeUp 0.7s 0.3s ease forwards;
-  }
-  .hero-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.72rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 1.2rem;
-  }
-  .hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2.8rem, 6vw, 4.2rem);
-    font-weight: 600;
-    line-height: 1.15;
-    margin-bottom: 1.5rem;
-    letter-spacing: -0.02em;
-  }
-  .hero h1 span { color: var(--accent); }
-  .hero-sub {
-    font-size: 1.05rem;
-    color: var(--muted);
-    max-width: 520px;
-    line-height: 1.75;
-    margin-bottom: 2rem;
-  }
-  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
-  .btn {
-    display: inline-flex; align-items: center; gap: 0.5rem;
-    padding: 0.65rem 1.4rem;
-    border-radius: 4px;
-    font-size: 0.82rem;
-    font-weight: 500;
-    letter-spacing: 0.03em;
-    text-decoration: none;
-    transition: all 0.2s;
-    cursor: pointer; border: none;
-  }
-  .btn-primary {
-    background: var(--text); color: #fff;
-  }
-  .btn-primary:hover { background: var(--accent); }
-  .btn-outline {
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--text);
-  }
-  .btn-outline:hover { border-color: var(--text); }
+/* CONTAINER */
+.container{max-width:980px;margin:0 auto;padding:0 2rem;position:relative;z-index:1;}
 
-  /* DIVIDER */
-  .divider { height: 1px; background: var(--border); margin: 1rem 0; }
+/* FADE UP */
+.fu{opacity:0;transform:translateY(26px);transition:opacity .72s ease,transform .72s ease;}
+.fu.on{opacity:1;transform:translateY(0);}
 
-  /* SECTIONS */
-  section { padding: 4rem 0; opacity: 0; animation: fadeUp 0.6s ease forwards; }
-  section:nth-of-type(2) { animation-delay: 0.15s; }
-  section:nth-of-type(3) { animation-delay: 0.25s; }
-  section:nth-of-type(4) { animation-delay: 0.35s; }
-  section:nth-of-type(5) { animation-delay: 0.45s; }
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:.45rem;padding:.68rem 1.5rem;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:500;letter-spacing:.08em;text-decoration:none;border:none;cursor:none;transition:transform .15s;}
+.btn:hover{animation:bPulse .55s ease;}
+@keyframes bPulse{0%{box-shadow:0 0 0 0 var(--accent-glow)}50%{box-shadow:0 0 0 10px transparent}100%{box-shadow:0 0 0 0 transparent}}
+.btn-p{background:var(--accent);color:#fff;}
+.btn-o{background:transparent;color:var(--text);border:1px solid var(--border);}
+.btn-o:hover{border-color:var(--accent);color:var(--accent-light);}
 
-  .section-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 0.5rem;
-  }
-  .section-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.9rem;
-    font-weight: 600;
-    margin-bottom: 2.5rem;
-    letter-spacing: -0.01em;
-  }
+/* SECTIONS */
+section{padding:5rem 0;}
+.sec-eye{font-size:.63rem;letter-spacing:.26em;text-transform:uppercase;color:var(--accent);margin-bottom:.6rem;display:flex;align-items:center;gap:.8rem;}
+.sec-eye::before{content:'';display:block;width:22px;height:1px;background:var(--accent);}
+.sec-title{font-family:'Syne',sans-serif;font-size:clamp(1.6rem,3vw,2.1rem);font-weight:700;margin-bottom:2.8rem;letter-spacing:-.01em;line-height:1.2;}
+.divider{height:1px;background:var(--border);}
 
-  /* ABOUT */
-  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
-  .about-text p { color: var(--muted); margin-bottom: 1rem; font-size: 0.95rem; }
-  .about-stats { display: flex; flex-direction: column; gap: 1.2rem; }
-  .stat-item {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 1.1rem 1.4rem;
-  }
-  .stat-num {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.8rem;
-    font-weight: 600;
-    color: var(--accent);
-    line-height: 1;
-  }
-  .stat-label { font-size: 0.78rem; color: var(--muted); margin-top: 0.2rem; letter-spacing: 0.04em; }
+/* HERO */
+.hero{padding:10rem 0 5rem;}
+.hero-eye{font-size:.68rem;letter-spacing:.26em;text-transform:uppercase;color:var(--accent);margin-bottom:1.4rem;display:flex;align-items:center;gap:.8rem;}
+.hero-eye::before{content:'';display:block;width:28px;height:1px;background:var(--accent);}
+.hero-h1{font-family:'Syne',sans-serif;font-size:clamp(2.3rem,5vw,3.8rem);font-weight:800;line-height:1.08;margin-bottom:.9rem;letter-spacing:-.02em;}
+.typed-wrap{display:block;color:var(--accent);min-height:1.15em;}
+.t-cur{display:inline-block;width:3px;height:.82em;background:var(--accent);margin-left:3px;vertical-align:middle;animation:blink .75s step-end infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.hero-tag{font-size:.8rem;color:var(--muted);margin-bottom:.5rem;letter-spacing:.03em;}
+.hero-sub{font-size:.8rem;color:var(--muted);max-width:480px;line-height:1.85;margin-bottom:2.5rem;}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap;}
 
-  /* SKILLS */
-  .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
-  .skill-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 1.4rem;
-    transition: border-color 0.2s, box-shadow 0.2s;
-  }
-  .skill-card:hover {
-    border-color: var(--accent);
-    box-shadow: 0 2px 16px rgba(37, 99, 235, 0.07);
-  }
-  .skill-icon {
-    font-size: 1.4rem;
-    margin-bottom: 0.7rem;
-  }
-  .skill-name {
-    font-weight: 500;
-    font-size: 0.9rem;
-    margin-bottom: 0.3rem;
-  }
-  .skill-desc { font-size: 0.78rem; color: var(--muted); }
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:3.5rem;align-items:start;}
+.about-text p{color:var(--muted);margin-bottom:1rem;font-size:.8rem;line-height:1.85;}
+.about-text strong{color:var(--text);font-weight:500;}
+.about-q{margin-top:1.4rem;border-left:2px solid var(--accent);padding:.9rem 1.1rem;font-size:.78rem;color:var(--accent-light);font-style:italic;line-height:1.7;background:var(--accent-dim);border-radius:0 4px 4px 0;}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1.3rem;transition:border-color .3s,transform .3s;}
+.stat-card:hover{border-color:var(--accent);transform:translateY(-2px);}
+.stat-num{font-family:'Syne',sans-serif;font-size:1.9rem;font-weight:800;color:var(--accent);line-height:1;margin-bottom:.35rem;}
+.stat-lbl{font-size:.7rem;color:var(--muted);line-height:1.5;}
 
-  /* PROJECTS */
-  .projects-stack { display: flex; flex-direction: column; gap: 1.5rem; }
-  .project-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 2rem;
-    transition: border-color 0.2s, box-shadow 0.2s;
-    position: relative;
-  }
-  .project-card:hover {
-    border-color: var(--accent);
-    box-shadow: 0 4px 24px rgba(37, 99, 235, 0.07);
-  }
-  .project-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.9rem; }
-  .project-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.2rem;
-    font-weight: 600;
-    max-width: 70%;
-  }
-  .project-status {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.68rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 0.3rem 0.7rem;
-    border-radius: 20px;
-  }
-  .status-done { background: #DCFCE7; color: #166534; }
-  .status-wip { background: #FEF9C3; color: #854D0E; }
-  .project-desc { color: var(--muted); font-size: 0.88rem; margin-bottom: 1.2rem; line-height: 1.7; }
-  .project-highlights { margin-bottom: 1.4rem; }
-  .project-highlights li {
-    font-size: 0.83rem;
-    color: var(--muted);
-    padding: 0.2rem 0 0.2rem 1rem;
-    position: relative;
-  }
-  .project-highlights li::before {
-    content: '→';
-    position: absolute; left: 0;
-    color: var(--accent);
-    font-size: 0.75rem;
-  }
-  .project-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-  .tag {
-    background: var(--tag-bg);
-    color: var(--muted);
-    font-family: 'DM Mono', monospace;
-    font-size: 0.68rem;
-    letter-spacing: 0.06em;
-    padding: 0.3rem 0.7rem;
-    border-radius: 4px;
-  }
-  .project-link {
-    margin-top: 1.4rem;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-size: 0.8rem;
-    color: var(--accent);
-    text-decoration: none;
-    font-weight: 500;
-    transition: gap 0.2s;
-  }
-  .project-link:hover { gap: 0.65rem; }
+/* PROOF OF IMPACT */
+.proof-list{display:flex;flex-direction:column;gap:.8rem;}
+.proof-item{display:flex;align-items:flex-start;gap:.85rem;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1rem 1.2rem;font-size:.78rem;color:var(--muted);line-height:1.7;transition:border-color .3s,transform .25s;}
+.proof-item:hover{border-color:var(--accent);transform:translateX(5px);}
+.proof-check{color:var(--accent);font-size:.85rem;flex-shrink:0;margin-top:.1rem;}
+.proof-item strong{color:var(--text);font-weight:500;}
+.metric{color:var(--accent-light);font-weight:500;}
 
-  /* CONTACT */
-  .contact-box {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 2.5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 2rem;
-    flex-wrap: wrap;
-  }
-  .contact-text h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.4rem;
-    margin-bottom: 0.4rem;
-  }
-  .contact-text p { color: var(--muted); font-size: 0.88rem; }
-  .contact-links { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+/* SKILLS */
+.skills-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;}
+.skill-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.4rem 1rem;text-align:center;transition:border-color .3s,background .3s,transform .25s;}
+.skill-card:hover{border-color:var(--accent);background:var(--accent-dim);transform:translateY(-3px);}
+.skill-card:hover .sk-ico{animation:bounce .5s ease;}
+@keyframes bounce{0%,100%{transform:translateY(0)}40%{transform:translateY(-9px)}70%{transform:translateY(-4px)}}
+.sk-ico{font-size:1.9rem;margin-bottom:.7rem;display:block;}
+.sk-name{font-size:.76rem;font-weight:500;color:var(--text);margin-bottom:.3rem;}
+.sk-desc{font-size:.65rem;color:var(--muted);line-height:1.5;}
 
-  /* FOOTER */
-  footer {
-    border-top: 1px solid var(--border);
-    padding: 2rem 0;
-    text-align: center;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.72rem;
-    color: var(--muted);
-    letter-spacing: 0.06em;
-  }
+/* PROJECT FLIP */
+.proj-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+.flip-wrap{perspective:1200px;height:310px;}
+.flip-inner{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .65s cubic-bezier(.4,0,.2,1);}
+.flip-wrap:hover .flip-inner{transform:rotateY(180deg);}
+.flip-front,.flip-back{position:absolute;inset:0;backface-visibility:hidden;border-radius:12px;padding:1.8rem;border:1px solid var(--border);}
+.flip-front{background:var(--card);display:flex;flex-direction:column;justify-content:space-between;transition:border-color .3s;}
+.flip-wrap:hover .flip-front{border-color:var(--accent);}
+.flip-back{background:linear-gradient(140deg,#0D1B2E,#0A0F1C);border-color:var(--accent);transform:rotateY(180deg);display:flex;flex-direction:column;justify-content:space-between;}
+.p-status{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;padding:.3rem .75rem;border-radius:20px;display:inline-block;margin-bottom:.9rem;background:rgba(22,101,52,.25);color:#86EFAC;border:1px solid rgba(134,239,172,.25);}
+.p-title{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700;margin-bottom:.65rem;line-height:1.3;}
+.p-desc{font-size:.73rem;color:var(--muted);line-height:1.72;margin-bottom:1rem;}
+.p-tags{display:flex;gap:.4rem;flex-wrap:wrap;}
+.p-tag{font-size:.6rem;padding:.22rem .6rem;border-radius:3px;background:var(--accent-dim);color:var(--accent-light);border:1px solid rgba(37,99,235,.2);}
+.p-hint{font-size:.62rem;color:var(--muted);display:flex;align-items:center;gap:.4rem;}
+.p-hint::before{content:'↻';color:var(--accent);}
+.b-lbl{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:.8rem;}
+.b-insights{display:flex;flex-direction:column;gap:.55rem;flex:1;margin-bottom:.9rem;}
+.b-ins{display:flex;align-items:flex-start;gap:.55rem;font-size:.71rem;color:var(--muted);line-height:1.55;}
+.b-ins::before{content:'→';color:var(--accent);flex-shrink:0;font-size:.68rem;}
+.b-ins strong{color:var(--text);}
+.b-link{display:inline-flex;align-items:center;gap:.4rem;font-size:.7rem;color:var(--accent);text-decoration:none;font-weight:500;transition:gap .2s;}
+.b-link:hover{gap:.65rem;}
 
-  /* ANIMATIONS */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(18px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes fadeDown {
-    from { opacity: 0; transform: translateY(-10px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
+/* CONTACT */
+.contact-box{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:3.5rem;text-align:center;position:relative;overflow:hidden;}
+.contact-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);}
+.c-eye{font-size:.62rem;letter-spacing:.26em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;}
+.c-h2{font-family:'Syne',sans-serif;font-size:clamp(1.5rem,3vw,2rem);font-weight:700;margin-bottom:.8rem;line-height:1.2;}
+.c-sub{font-size:.78rem;color:var(--muted);max-width:480px;margin:0 auto 2rem;line-height:1.8;}
+.c-btns{display:flex;gap:.8rem;flex-wrap:wrap;justify-content:center;}
+.c-soc{display:flex;gap:.8rem;justify-content:center;margin-top:1.4rem;flex-wrap:wrap;align-items:center;}
+.soc-a{font-size:.66rem;color:var(--muted);text-decoration:none;letter-spacing:.06em;transition:color .2s;}
+.soc-a:hover{color:var(--accent);}
+.soc-sep{color:var(--border);}
 
-  /* RESPONSIVE */
-  @media (max-width: 640px) {
-    nav { padding: 1rem 1.2rem; }
-    .nav-links { gap: 1.2rem; }
-    .hero { padding: 6.5rem 0 3rem; }
-    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
-    .skills-grid { grid-template-columns: 1fr 1fr; }
-    .contact-box { flex-direction: column; }
-  }
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:1.8rem 0;text-align:center;font-size:.65rem;color:var(--muted);letter-spacing:.1em;}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  nav{padding:1rem 1.5rem;}
+  nav.scrolled{padding:.7rem 1.5rem;}
+  .nav-links{gap:1.2rem;}
+  .hero{padding:7rem 0 3rem;}
+  .about-grid{grid-template-columns:1fr;gap:2rem;}
+  .skills-grid{grid-template-columns:repeat(2,1fr);}
+  .proj-grid{grid-template-columns:1fr;}
+  .flip-wrap{height:340px;}
+  .stat-grid{grid-template-columns:1fr 1fr;}
+  .contact-box{padding:2rem 1.2rem;}
+}
 </style>
 </head>
 <body>
 
+<!-- PRELOADER -->
+<div id="preloader">
+  <div style="text-align:center">
+    <div class="pre-logo">AG</div>
+    <div style="margin:1.1rem 0"><div class="pre-bar-w"><div class="pre-bar-f"></div></div></div>
+    <div class="pre-sub">loading portfolio_</div>
+  </div>
+</div>
+
+<!-- BLOBS -->
+<div class="blob b1"></div>
+<div class="blob b2"></div>
+<div class="blob b3"></div>
+
+<!-- CURSOR -->
+<div class="cur-dot" id="curDot"></div>
+<div class="cur-ring" id="curRing"></div>
+
 <!-- NAV -->
-<nav>
-  <div class="nav-logo">Abhineet · DA Portfolio</div>
+<nav id="nav">
+  <div class="nav-logo">AG<span>.</span></div>
   <ul class="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#contact">Contact</a></li>
+    <li><a href="#about">about</a></li>
+    <li><a href="#impact">impact</a></li>
+    <li><a href="#skills">skills</a></li>
+    <li><a href="#projects">projects</a></li>
+    <li><a href="#contact">contact</a></li>
   </ul>
 </nav>
 
-<!-- HERO -->
+<!-- SCROLL TO TOP -->
+<button id="toTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
 <div class="container">
+
+  <!-- HERO -->
   <div class="hero">
-    <div class="hero-label">Data Analyst · Bengaluru, India</div>
-    <h1>Turning raw data<br/>into <span>clear decisions.</span></h1>
-    <p class="hero-sub">
-      B.Tech in Computer Science and Technology (Presidency University, Bengaluru) — building end-to-end analytics solutions from SQL-driven exploration to interactive Power BI dashboards.
+    <div class="hero-eye fu">Data Analyst · Bengaluru, India</div>
+    <h1 class="hero-h1 fu" style="transition-delay:.1s">
+      I analyze data to<br/>uncover
+      <span class="typed-wrap"><span id="typed-el"></span><span class="t-cur"></span></span>
+    </h1>
+    <p class="hero-tag fu" style="transition-delay:.18s">// turning raw data into decisions that matter</p>
+    <p class="hero-sub fu" style="transition-delay:.22s">
+      B.Tech in Computer Science &amp; Technology · Presidency University, Bengaluru<br/>
+      Building end-to-end analytics pipelines — SQL to Python to Power BI.
     </p>
-    <div class="hero-actions">
-      <a href="#projects" class="btn btn-primary">View Projects →</a>
-      <a href="#contact" class="btn btn-outline">Get in Touch</a>
+    <div class="hero-btns fu" style="transition-delay:.28s">
+      <a href="#projects" class="btn btn-p">view_projects() →</a>
+      <a href="#contact" class="btn btn-o">get_in_touch()</a>
     </div>
   </div>
 
-  <!-- ABOUT -->
   <div class="divider"></div>
+
+  <!-- ABOUT -->
   <section id="about">
-    <div class="section-label">01 / About</div>
-    <div class="section-title">A bit about me</div>
+    <div class="sec-eye fu">01 / about</div>
+    <div class="sec-title fu" style="transition-delay:.08s">I solve business problems<br/>using data.</div>
     <div class="about-grid">
-      <div class="about-text">
-        <p>
-          I'm a Data Analyst based in Bengaluru, with a B.Tech in Computer Science and Technology from Presidency University, Bengaluru. I'm passionate about extracting meaningful signals from complex datasets and communicating them in ways that drive action.
-        </p>
-        <p>
-          My workflow spans the full analytics stack — Python for exploration and cleaning, SQL for multi-table querying, and Power BI for storytelling through visuals. I focus on building projects that are reproducible, well-documented, and business-relevant.
-        </p>
-        <p>
-          I'm actively seeking Data Analyst internship and full-time opportunities in Bengaluru.
-        </p>
+      <div class="about-text fu" style="transition-delay:.1s">
+        <p>I'm a Data Analyst based in Bengaluru who starts every project with a <strong>business question</strong>, not a dataset. The goal isn't analysis for its own sake — it's finding the insight that changes a decision.</p>
+        <p>My stack: <strong>SQL first</strong> — joins, CTEs, and window functions to explore across complex multi-table structures. Then <strong>Python</strong> (Pandas, Matplotlib, Seaborn) for deep EDA. Finally <strong>Power BI</strong> to communicate findings clearly to stakeholders.</p>
+        <p>I've analyzed <strong>100K+ records</strong>, quantified how delivery delays destroy customer satisfaction, pinpointed which product categories drain retail margins, and built dashboards that turn raw data into executive-level action.</p>
+        <div class="about-q">"I don't just run queries — I translate data into decisions that move a business forward."</div>
       </div>
-      <div class="about-stats">
-        <div class="stat-item">
-          <div class="stat-num">2</div>
-          <div class="stat-label">End-to-end portfolio projects</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-num">3</div>
-          <div class="stat-label">Core tools: Python · SQL · Power BI</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-num">∞</div>
-          <div class="stat-label">Curiosity for data-driven problems</div>
+      <div class="fu" style="transition-delay:.15s">
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="stat-num">100K+</div>
+            <div class="stat-lbl">Records analyzed across end-to-end projects</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">53%</div>
+            <div class="stat-lbl">Revenue spike identified via demand analysis</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">2.27</div>
+            <div class="stat-lbl">Avg review score for late orders vs 4.29 on-time</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">9</div>
+            <div class="stat-lbl">Relational tables joined in SQL-first analysis</div>
+          </div>
         </div>
       </div>
     </div>
   </section>
+
+  <div class="divider"></div>
+
+  <!-- PROOF OF IMPACT -->
+  <section id="impact">
+    <div class="sec-eye fu">02 / proof of impact</div>
+    <div class="sec-title fu" style="transition-delay:.08s">What I've actually done.</div>
+    <div class="proof-list">
+      <div class="proof-item fu" style="transition-delay:.05s">
+        <span class="proof-check">✔</span>
+        <span>Analyzed <strong class="metric">100K+ Brazilian e-commerce orders</strong> across 9 relational tables — uncovering revenue trends, delivery failures, and payment behavior from raw SQL to executive Power BI dashboard.</span>
+      </div>
+      <div class="proof-item fu" style="transition-delay:.1s">
+        <span class="proof-check">✔</span>
+        <span>Quantified the business cost of delivery delays — scores dropped from <strong class="metric">4.29 → 2.27 stars</strong> for late orders, giving leadership a clear, data-backed operational priority to act on.</span>
+      </div>
+      <div class="proof-item fu" style="transition-delay:.15s">
+        <span class="proof-check">✔</span>
+        <span>Identified <strong class="metric">Tables &amp; Bookcases as persistent loss-makers</strong> driving over -$17K in retail losses, with SQL window functions pinpointing discount bands above 40% as the root cause.</span>
+      </div>
+      <div class="proof-item fu" style="transition-delay:.2s">
+        <span class="proof-check">✔</span>
+        <span>Detected a <strong class="metric">~53% revenue spike in November 2017</strong> via time-series analysis — confirming the business case for seasonal demand planning and targeted promotional strategy.</span>
+      </div>
+      <div class="proof-item fu" style="transition-delay:.25s">
+        <span class="proof-check">✔</span>
+        <span>Built <strong class="metric">complete end-to-end analytics pipelines</strong> — SQL → Python EDA → Power BI dashboards — structured for reproducibility, clarity, and real business decision-making.</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
 
   <!-- SKILLS -->
-  <div class="divider"></div>
   <section id="skills">
-    <div class="section-label">02 / Skills</div>
-    <div class="section-title">What I work with</div>
-    <div class="skills-grid">
-      <div class="skill-card">
-        <div class="skill-icon">🐍</div>
-        <div class="skill-name">Python</div>
-        <div class="skill-desc">Pandas, NumPy, Matplotlib, Seaborn — EDA, data cleaning, hypothesis framing.</div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-icon">🗄️</div>
-        <div class="skill-name">SQL</div>
-        <div class="skill-desc">Complex joins, CTEs, window functions — multi-table analysis and business queries.</div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-icon">📊</div>
-        <div class="skill-name">Power BI</div>
-        <div class="skill-desc">DAX measures, interactive dashboards, KPI cards, conditional formatting, YoY analysis.</div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-icon">📓</div>
-        <div class="skill-name">Jupyter Notebooks</div>
-        <div class="skill-desc">Narrative-driven analysis with clean structure and reproducible code.</div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-icon">🔗</div>
-        <div class="skill-name">GitHub</div>
-        <div class="skill-desc">Version control, structured project READMEs, and portfolio presentation.</div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-icon">📐</div>
-        <div class="skill-name">Excel / Sheets</div>
-        <div class="skill-desc">Pivot tables, data validation, quick exploratory analysis.</div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-icon">📈</div>
-        <div class="skill-name">Tableau</div>
-        <div class="skill-desc">Interactive dashboards, data visualization, and visual storytelling.</div>
-      </div>
+    <div class="sec-eye fu">03 / skills</div>
+    <div class="sec-title fu" style="transition-delay:.08s">Tools I use to solve<br/>data problems.</div>
+    <div class="skills-grid fu" style="transition-delay:.12s">
+      <div class="skill-card"><span class="sk-ico">🐍</span><div class="sk-name">Python</div><div class="sk-desc">Pandas · NumPy · Matplotlib · Seaborn · EDA</div></div>
+      <div class="skill-card"><span class="sk-ico">🗄️</span><div class="sk-name">SQL</div><div class="sk-desc">Joins · CTEs · Window Functions · MySQL</div></div>
+      <div class="skill-card"><span class="sk-ico">📊</span><div class="sk-name">Power BI</div><div class="sk-desc">DAX · KPI Cards · YoY Analysis · Dashboards</div></div>
+      <div class="skill-card"><span class="sk-ico">📈</span><div class="sk-name">Tableau</div><div class="sk-desc">Interactive Dashboards · Visual Storytelling</div></div>
+      <div class="skill-card"><span class="sk-ico">📓</span><div class="sk-name">Jupyter</div><div class="sk-desc">Narrative EDA · Reproducible Analysis</div></div>
+      <div class="skill-card"><span class="sk-ico">🔗</span><div class="sk-name">GitHub</div><div class="sk-desc">Version Control · Portfolio · READMEs</div></div>
+      <div class="skill-card"><span class="sk-ico">📐</span><div class="sk-name">Excel</div><div class="sk-desc">Pivot Tables · Data Validation · Quick EDA</div></div>
+      <div class="skill-card"><span class="sk-ico">⚡</span><div class="sk-name">NumPy</div><div class="sk-desc">Array Operations · Statistical Computing</div></div>
     </div>
   </section>
+
+  <div class="divider"></div>
 
   <!-- PROJECTS -->
-  <div class="divider"></div>
   <section id="projects">
-    <div class="section-label">03 / Projects</div>
-    <div class="section-title">End-to-end work</div>
-    <div class="projects-stack">
+    <div class="sec-eye fu">04 / projects</div>
+    <div class="sec-title fu" style="transition-delay:.08s">
+      End-to-end work.<br/>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:.82rem;font-weight:400;color:var(--muted);">// hover a card to reveal key insights</span>
+    </div>
+    <div class="proj-grid fu" style="transition-delay:.12s">
 
-      <!-- Project 1 -->
-      <div class="project-card">
-        <div class="project-header">
-          <div class="project-title">Superstore Profitability Analysis</div>
-          <span class="project-status status-done">Completed</span>
+      <!-- PROJECT 1 -->
+      <div class="flip-wrap">
+        <div class="flip-inner">
+          <div class="flip-front">
+            <div>
+              <span class="p-status">✓ completed</span>
+              <div class="p-title">Superstore Profitability Analysis</div>
+              <p class="p-desc">A retail profitability deep-dive — finding which sub-categories, regions, and discount strategies were destroying margins, backed by SQL and Power BI.</p>
+              <div class="p-tags">
+                <span class="p-tag">Python</span><span class="p-tag">SQL</span><span class="p-tag">Power BI</span><span class="p-tag">DAX</span>
+              </div>
+            </div>
+            <div class="p-hint">hover to reveal insights</div>
+          </div>
+          <div class="flip-back">
+            <div class="b-lbl">// key insights</div>
+            <div class="b-insights">
+              <div class="b-ins"><strong>Tables &amp; Bookcases</strong> drove over <strong>-$17K</strong> in combined losses — persistent across all regions regardless of sales volume.</div>
+              <div class="b-ins">Discounts exceeding <strong>40%</strong> directly correlated with negative margins — a clear pricing strategy failure.</div>
+              <div class="b-ins">The <strong>West region</strong> was the only consistent profit driver; Central needed urgent strategic attention.</div>
+              <div class="b-ins">SQL CTEs &amp; window functions ranked every sub-category by loss — evidence-based, not assumptions.</div>
+            </div>
+            <a href="https://github.com/ABHINEET2612/Superstore_Profitability_Analysis" target="_blank" class="b-link">view_repo() →</a>
+          </div>
         </div>
-        <p class="project-desc">
-          An end-to-end profitability deep-dive on the Superstore retail dataset — identifying loss-driving sub-categories, regional performance gaps, and discount strategy flaws to surface actionable business recommendations.
-        </p>
-        <ul class="project-highlights">
-          <li>Python EDA with narrative hypothesis framing and visual storytelling</li>
-          <li>SQL analysis using CTEs and window functions for ranking and trend detection</li>
-          <li>Power BI dashboard with YoY DAX measures, conditional formatting, and Key Findings page</li>
-          <li>Identified Tables and Bookcases as persistent loss-makers driving -$17K+ in losses</li>
-        </ul>
-        <div class="project-tags">
-          <span class="tag">Python</span>
-          <span class="tag">Pandas</span>
-          <span class="tag">SQL</span>
-          <span class="tag">Power BI</span>
-          <span class="tag">DAX</span>
-          <span class="tag">EDA</span>
-        </div>
-        <a href="https://github.com/ABHINEET2612/Superstore_Profitability_Analysis" target="_blank" class="project-link">View on GitHub →</a>
       </div>
 
-      <!-- Project 2 -->
-      <div class="project-card">
-        <div class="project-header">
-          <div class="project-title">Olist Brazilian E-Commerce Analysis</div>
-          <span class="project-status status-done">Completed</span>
+      <!-- PROJECT 2 -->
+      <div class="flip-wrap">
+        <div class="flip-inner">
+          <div class="flip-front">
+            <div>
+              <span class="p-status">✓ completed</span>
+              <div class="p-title">Olist Brazilian E-Commerce Analysis</div>
+              <p class="p-desc">A SQL-first exploration of 100K+ orders — uncovering why delivery failures were tanking satisfaction and where Brazil's e-commerce growth was hiding.</p>
+              <div class="p-tags">
+                <span class="p-tag">Python</span><span class="p-tag">SQL</span><span class="p-tag">Power BI</span><span class="p-tag">9 tables</span>
+              </div>
+            </div>
+            <div class="p-hint">hover to reveal insights</div>
+          </div>
+          <div class="flip-back">
+            <div class="b-lbl">// key insights</div>
+            <div class="b-insights">
+              <div class="b-ins">Late deliveries caused scores to crash from <strong>4.29 → 2.27 stars</strong> — delivery is the #1 satisfaction lever.</div>
+              <div class="b-ins"><strong>~53% revenue spike</strong> in Nov 2017 confirmed Black Friday's impact — seasonal planning is non-negotiable.</div>
+              <div class="b-ins">São Paulo = <strong>~37% revenue, ~49% of customers</strong>. Northern states averaged 26–28 day delivery times.</div>
+              <div class="b-ins"><strong>~74% credit card</strong>, ~19% boleto — 1 in 5 customers need alternative payment strategies.</div>
+            </div>
+            <a href="https://github.com/ABHINEET2612/Olist_eCommerce_Analysis" target="_blank" class="b-link">view_repo() →</a>
+          </div>
         </div>
-        <p class="project-desc">
-          A multi-table SQL-first exploration of the Olist e-commerce dataset — analysing revenue growth, payment behaviour, delivery performance, customer satisfaction, and geographic distribution across Brazil's market of 100K+ orders spanning 2016–2018.
-        </p>
-        <ul class="project-highlights">
-          <li>Revenue exceeded R$1M/month consistently by mid-2018, with a ~53% spike in Nov 2017 driven by Black Friday demand</li>
-          <li>Delivery delays were the primary driver of negative reviews — scores dropped from 4.29 (on-time) to 2.27 (late), with ~8% of orders delayed by 10+ days on average</li>
-          <li>~74% of transactions via credit card (installment-driven); ~19% via boleto — nearly 1 in 5 customers rely on alternative payment methods</li>
-          <li>São Paulo contributed ~37% of revenue and ~49% of customers; northern states averaged 26–28 day delivery times, indicating logistical inefficiencies and untapped growth</li>
-          <li>Bed, Bath & Table ranked as both a top revenue category and one of the worst-rated — signalling high churn risk from quality or fulfilment issues</li>
-        </ul>
-        <div class="project-tags">
-          <span class="tag">Python</span>
-          <span class="tag">SQL</span>
-          <span class="tag">Joins</span>
-          <span class="tag">Power BI</span>
-          <span class="tag">E-Commerce</span>
-        </div>
-        <a href="https://github.com/ABHINEET2612/Olist_eCommerce_Analysis" target="_blank" class="project-link">View on GitHub →</a>
       </div>
 
     </div>
   </section>
 
-  <!-- CONTACT -->
   <div class="divider"></div>
+
+  <!-- CONTACT -->
   <section id="contact">
-    <div class="section-label">04 / Contact</div>
-    <div class="section-title">Let's connect</div>
-    <div class="contact-box">
-      <div class="contact-text">
-        <h3>Open to DA roles in Bengaluru</h3>
-        <p>Looking for internship or full-time Data Analyst opportunities.<br/>Feel free to reach out via any of the links below.</p>
+    <div class="contact-box fu">
+      <div class="c-eye">05 / contact</div>
+      <h2 class="c-h2">Open to Data Analyst roles.<br/>Let's connect.</h2>
+      <p class="c-sub">
+        Actively seeking DA internships and full-time roles in Bengaluru.<br/>
+        I bring SQL, Python, and Power BI — plus a habit of finding insights that actually matter.
+      </p>
+      <div class="c-btns">
+        <a href="https://www.linkedin.com/in/abhineet-gaur-b11a0a280/" target="_blank" class="btn btn-p">linkedin →</a>
+        <a href="https://github.com/ABHINEET2612" target="_blank" class="btn btn-o">github →</a>
+        <a href="mailto:gaurabhineet2612@gmail.com" class="btn btn-o">email →</a>
       </div>
-      <div class="contact-links">
-        <a href="https://www.linkedin.com/in/abhineet-gaur-b11a0a280/" target="_blank" class="btn btn-primary">LinkedIn</a>
-        <a href="https://github.com/ABHINEET2612" target="_blank" class="btn btn-outline">GitHub</a>
-        <a href="/cdn-cgi/l/email-protection#6106001413000309080f0404155357505321060c00080d4f020e0c" class="btn btn-outline">Email</a>
-        <a href="https://x.com/ga_abt122601" target="_blank" class="btn btn-outline">X / Twitter</a>
-        <a href="https://www.instagram.com/gaur_abhineet/" target="_blank" class="btn btn-outline">Instagram</a>
+      <div class="c-soc">
+        <a href="https://x.com/ga_abt122601" target="_blank" class="soc-a">x / twitter</a>
+        <span class="soc-sep">·</span>
+        <a href="https://www.instagram.com/gaur_abhineet/" target="_blank" class="soc-a">instagram</a>
+        <span class="soc-sep">·</span>
+        <span class="soc-a">+91 6360861992</span>
       </div>
     </div>
   </section>
 
 </div>
 
-<!-- FOOTER -->
 <footer>
   <div class="container">
-    Abhineet · Data Analyst · Bengaluru &nbsp;·&nbsp; Built with intention, no
+    <span style="color:var(--accent)">AG</span> · Abhineet Gaur · Data Analyst · Bengaluru &nbsp;·&nbsp; built with intention_
+  </div>
+</footer>
+
+<script>
+/* PRELOADER */
+window.addEventListener('load',()=>{
+  setTimeout(()=>{
+    const pl=document.getElementById('preloader');
+    pl.classList.add('hide');
+    setTimeout(()=>{
+      pl.style.display='none';
+      startTyped();
+      initFadeUp();
+      document.querySelectorAll('.hero .fu').forEach(el=>el.classList.add('on'));
+    },700);
+  },2300);
+});
+
+/* CURSOR */
+const dot=document.getElementById('curDot'),ring=document.getElementById('curRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  dot.style.left=mx+'px';dot.style.top=my+'px';
+});
+document.addEventListener('mouseover',e=>{
+  e.target.closest('a,button')?ring.classList.add('big'):ring.classList.remove('big');
+});
+(function loop(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();
+
+/* NAV + SCROLL TO TOP */
+const nav=document.getElementById('nav'),toTop=document.getElementById('toTop');
+window.addEventListener('scroll',()=>{
+  const s=window.scrollY;
+  s>60?nav.classList.add('scrolled'):nav.classList.remove('scrolled');
+  s>400?toTop.classList.add('show'):toTop.classList.remove('show');
+});
+
+/* TYPED TEXT */
+function startTyped(){
+  const phrases=['business insights.','clear decisions.','hidden patterns.','the story in data.'];
+  let pi=0,ci=0,del=false;
+  const el=document.getElementById('typed-el');
+  function tick(){
+    const cur=phrases[pi];
+    if(!del){
+      el.textContent=cur.slice(0,ci+1);ci++;
+      if(ci===cur.length){del=true;setTimeout(tick,1900);return;}
+      setTimeout(tick,72);
+    } else {
+      el.textContent=cur.slice(0,ci-1);ci--;
+      if(ci===0){del=false;pi=(pi+1)%phrases.length;}
+      setTimeout(tick,38);
+    }
+  }
+  tick();
+}
+
+/* FADE UP ON SCROLL */
+function initFadeUp(){
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on');});
+  },{threshold:.1});
+  document.querySelectorAll('.fu:not(.hero .fu)').forEach(el=>obs.observe(el));
+}
+</script>
+</body>
+</html>
