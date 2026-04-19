@@ -4,285 +4,405 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Abhineet Gaur — Data Analyst</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
+/* ── RESET & VARS ── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
-  --bg:#08080F;--surface:#0F0F1A;--card:#111121;--border:#1A1A2E;
-  --text:#E0E0F0;--muted:#6A6A8A;--soft:#9090A8;
-  --accent:#2563EB;--accent-dim:rgba(37,99,235,0.09);
-  --accent-glow:rgba(37,99,235,0.25);--accent-light:#60A5FA;
-  --highlight:rgba(37,99,235,0.18);
+  --bg:#08080F;--card:#0F0F1C;--card2:#131325;--border:#1C1C30;
+  --text:#E0E0F0;--muted:#6A6A8E;--soft:#9090B0;
+  --accent:#2563EB;--accent-dim:rgba(37,99,235,0.08);
+  --accent-glow:rgba(37,99,235,0.2);--accent-light:#60A5FA;
 }
 html{scroll-behavior:smooth;}
-body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;font-size:15px;-webkit-font-smoothing:antialiased;cursor:none;overflow-x:hidden;}
-a,button{cursor:none;}
-.mono{font-family:'IBM Plex Mono',monospace;}
 
-/* CANVAS */
-#particles{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.45;}
+/* ── CUSTOM ARROW CURSOR ── */
+body{
+  font-family:'IBM Plex Sans',sans-serif;
+  background:var(--bg);color:var(--text);
+  line-height:1.7;font-size:15px;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+  /* Blue-tinted custom arrow cursor as SVG data URI */
+  cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M4 2l16 10-7 1-4 7z' fill='%232563EB' stroke='%23ffffff' stroke-width='1.2'/%3E%3C/svg%3E") 4 2, default;
+}
+a,button{
+  cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M4 2l16 10-7 1-4 7z' fill='%2360A5FA' stroke='%23ffffff' stroke-width='1.2'/%3E%3C/svg%3E") 4 2, pointer;
+}
 
-/* BLOBS */
-.blob{position:fixed;border-radius:50%;filter:blur(100px);pointer-events:none;z-index:0;}
-.b1{width:600px;height:600px;background:var(--accent);opacity:.045;top:-200px;left:-160px;animation:bA 16s ease-in-out infinite;}
-.b2{width:400px;height:400px;background:#4338CA;opacity:.04;bottom:60px;right:-130px;animation:bB 19s ease-in-out infinite;}
-.b3{width:300px;height:300px;background:var(--accent);opacity:.03;top:50%;left:44%;animation:bC 22s ease-in-out infinite;}
-@keyframes bA{0%,100%{transform:translate(0,0)scale(1)}50%{transform:translate(80px,100px)scale(1.08)}}
-@keyframes bB{0%,100%{transform:translate(0,0)scale(1)}50%{transform:translate(-70px,-80px)scale(.92)}}
-@keyframes bC{0%,100%{transform:translate(-50%,-50%)scale(1)}50%{transform:translate(-50%,-58%)scale(1.06)}}
+/* ── STATIC BLOBS — CSS only, no JS ── */
+.blob{position:fixed;border-radius:50%;pointer-events:none;z-index:0;will-change:transform;}
+.b1{width:500px;height:500px;background:radial-gradient(circle,rgba(37,99,235,.07) 0%,transparent 70%);top:-160px;left:-120px;animation:bA 18s ease-in-out infinite;}
+.b2{width:380px;height:380px;background:radial-gradient(circle,rgba(67,56,202,.06) 0%,transparent 70%);bottom:40px;right:-100px;animation:bB 22s ease-in-out infinite;}
+@keyframes bA{0%,100%{transform:translate(0,0)scale(1)}50%{transform:translate(60px,80px)scale(1.06)}}
+@keyframes bB{0%,100%{transform:translate(0,0)scale(1)}50%{transform:translate(-50px,-60px)scale(.94)}}
 
-/* CURSOR */
-.cur-dot{width:6px;height:6px;background:var(--accent);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);}
-.cur-ring{width:30px;height:30px;border:1px solid rgba(37,99,235,.5);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .2s,height .2s,border-color .25s;}
-.cur-ring.big{width:44px;height:44px;border-color:var(--accent);}
+/* ── SUBTLE DOT GRID BACKGROUND ── */
+body::after{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:radial-gradient(rgba(37,99,235,.12) 1px,transparent 1px);
+  background-size:32px 32px;
+  mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 20%,transparent 100%);
+}
 
-/* PRELOADER */
-#preloader{position:fixed;inset:0;background:var(--bg);z-index:10000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;transition:opacity .7s,visibility .7s;}
-#preloader.hide{opacity:0;visibility:hidden;pointer-events:none;}
-.pre-logo{font-family:'Syne',sans-serif;font-size:4rem;font-weight:800;color:var(--accent);letter-spacing:.1em;animation:glitch 2s infinite;}
-@keyframes glitch{0%,88%,100%{text-shadow:none;transform:none;}89%{text-shadow:-2px 0 #FF0040,2px 0 #00FFD5;transform:translate(-1px,0);}91%{text-shadow:2px 0 #FF0040,-2px 0 #00FFD5;transform:translate(1px,0);}93%{text-shadow:none;transform:none;}}
-.pre-line{font-family:'IBM Plex Mono',monospace;font-size:.65rem;letter-spacing:.2em;color:var(--muted);text-transform:uppercase;}
-.pre-bar-w{width:200px;height:1px;background:var(--border);overflow:hidden;}
-.pre-bar-f{height:100%;background:var(--accent);animation:fillB 2.2s ease forwards;}
-@keyframes fillB{from{width:0}to{width:100%}}
-
-/* SCAN LINE */
-body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.025) 2px,rgba(0,0,0,.025) 4px);pointer-events:none;z-index:1000;}
-
-/* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:1.3rem 3rem;background:rgba(8,8,15,.6);backdrop-filter:blur(20px);border-bottom:1px solid transparent;transition:padding .3s,border-color .3s,background .3s;}
-nav.scrolled{padding:.75rem 3rem;border-color:var(--border);background:rgba(8,8,15,.92);}
-.nav-logo{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:var(--text);letter-spacing:.08em;animation:glitch 5s 2s infinite;}
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:1.3rem 3rem;
+  background:rgba(8,8,15,.5);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid transparent;
+  transition:padding .25s,border-color .25s,background .25s;
+  will-change:padding;
+}
+nav.scrolled{padding:.75rem 3rem;border-color:var(--border);background:rgba(8,8,15,.9);}
+.nav-logo{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:var(--text);letter-spacing:.08em;}
 .nav-logo span{color:var(--accent);}
 .nav-right{display:flex;align-items:center;gap:2rem;}
 .nav-links{display:flex;gap:2rem;list-style:none;}
-.nav-links a{text-decoration:none;color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;position:relative;transition:color .2s;}
-.nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;right:0;height:1px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .22s;}
+.nav-links a{
+  text-decoration:none;color:var(--muted);
+  font-family:'IBM Plex Mono',monospace;
+  font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;
+  position:relative;transition:color .18s;
+}
+.nav-links a::after{
+  content:'';position:absolute;bottom:-3px;left:0;right:0;
+  height:1px;background:var(--accent);
+  transform:scaleX(0);transform-origin:left;transition:transform .2s;
+}
 .nav-links a:hover{color:var(--text);}
 .nav-links a:hover::after{transform:scaleX(1);}
-.nav-resume{display:inline-flex;align-items:center;gap:.45rem;padding:.42rem .95rem;border:1px solid var(--accent);border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);text-decoration:none;transition:background .2s,color .2s;}
+.nav-resume{
+  display:inline-flex;align-items:center;gap:.45rem;
+  padding:.42rem .95rem;border:1px solid var(--accent);border-radius:3px;
+  font-family:'IBM Plex Mono',monospace;font-size:.64rem;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--accent);text-decoration:none;
+  transition:background .18s,color .18s;
+}
 .nav-resume:hover{background:var(--accent);color:#fff;}
 .nav-resume svg{width:11px;height:11px;flex-shrink:0;}
 
-/* SCROLL TO TOP */
-#toTop{position:fixed;bottom:2rem;right:2rem;width:36px;height:36px;background:var(--accent);border:none;border-radius:3px;color:#fff;font-size:1rem;display:flex;align-items:center;justify-content:center;cursor:none;opacity:0;visibility:hidden;z-index:99;transition:opacity .3s,visibility .3s,transform .2s;}
+/* ── SCROLL TO TOP ── */
+#toTop{
+  position:fixed;bottom:2rem;right:2rem;width:36px;height:36px;
+  background:var(--accent);border:none;border-radius:3px;
+  color:#fff;font-size:1.1rem;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;visibility:hidden;z-index:99;
+  transition:opacity .25s,visibility .25s,transform .18s;
+}
 #toTop.show{opacity:1;visibility:visible;}
-#toTop:hover{transform:translateY(-4px);}
+#toTop:hover{transform:translateY(-3px);}
 
-/* CONTAINER */
-.container{max-width:1000px;margin:0 auto;padding:0 2rem;position:relative;z-index:1;}
+/* ── CONTAINER ── */
+.container{max-width:980px;margin:0 auto;padding:0 2.5rem;position:relative;z-index:1;}
 
-/* FADE UP */
-.fu{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease;}
-.fu.on{opacity:1;transform:translateY(0);}
+/* ── FADE UP — CSS only, triggered by JS IntersectionObserver ── */
+.fu{opacity:0;transform:translateY(22px);transition:opacity .65s ease,transform .65s ease;}
+.fu.on{opacity:1;transform:none;}
 
-/* BUTTONS */
-.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.7rem 1.5rem;border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:.72rem;font-weight:500;letter-spacing:.08em;text-decoration:none;border:none;cursor:none;transition:all .2s;position:relative;overflow:hidden;}
-.btn::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,.07);transform:translateX(-110%);transition:transform .3s;}
-.btn:hover::after{transform:translateX(0);}
-.btn:hover{animation:bPulse .55s ease;}
-@keyframes bPulse{0%{box-shadow:0 0 0 0 var(--accent-glow)}50%{box-shadow:0 0 0 10px transparent}100%{box-shadow:0 0 0 0 transparent}}
+/* ── BUTTONS ── */
+.btn{
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.7rem 1.5rem;border-radius:3px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:.72rem;font-weight:500;letter-spacing:.08em;
+  text-decoration:none;border:none;
+  transition:transform .15s,box-shadow .15s,background .15s,color .15s;
+}
 .btn-p{background:var(--accent);color:#fff;}
+.btn-p:hover{transform:translateY(-2px);box-shadow:0 6px 24px var(--accent-glow);}
 .btn-o{background:transparent;color:var(--text);border:1px solid var(--border);}
-.btn-o:hover{border-color:var(--accent);color:var(--accent-light);}
+.btn-o:hover{border-color:var(--accent);color:var(--accent-light);transform:translateY(-2px);}
 
-/* SECTIONS */
+/* ── SECTIONS ── */
 section{padding:5rem 0;}
-.sec-eye{font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.25em;text-transform:uppercase;color:var(--accent);margin-bottom:.6rem;display:flex;align-items:center;gap:.8rem;}
-.sec-eye::before{content:'';display:block;width:22px;height:1px;background:var(--accent);}
-.sec-title{font-family:'Syne',sans-serif;font-size:clamp(1.7rem,3vw,2.2rem);font-weight:700;margin-bottom:2.8rem;letter-spacing:-.015em;line-height:1.15;}
+.sec-eye{
+  font-family:'IBM Plex Mono',monospace;font-size:.62rem;
+  letter-spacing:.25em;text-transform:uppercase;color:var(--accent);
+  margin-bottom:.6rem;display:flex;align-items:center;gap:.75rem;
+}
+.sec-eye::before{content:'';display:block;width:20px;height:1px;background:var(--accent);}
+.sec-title{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(1.65rem,3vw,2.1rem);
+  font-weight:700;margin-bottom:2.5rem;
+  letter-spacing:-.015em;line-height:1.15;
+}
 .divider{height:1px;background:var(--border);}
 
-/* HERO */
+/* ── HERO ── */
 .hero{padding:10rem 0 5rem;}
-.hero-eye{font-family:'IBM Plex Mono',monospace;font-size:.68rem;letter-spacing:.25em;text-transform:uppercase;color:var(--accent);margin-bottom:1.4rem;display:flex;align-items:center;gap:.8rem;}
+.hero-eye{
+  font-family:'IBM Plex Mono',monospace;font-size:.68rem;
+  letter-spacing:.25em;text-transform:uppercase;color:var(--accent);
+  margin-bottom:1.4rem;display:flex;align-items:center;gap:.8rem;
+}
 .hero-eye::before{content:'';display:block;width:28px;height:1px;background:var(--accent);}
-.hero-h1{font-family:'Syne',sans-serif;font-size:clamp(2.5rem,5.5vw,4rem);font-weight:800;line-height:1.06;margin-bottom:.8rem;letter-spacing:-.025em;}
+.hero-h1{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(2.6rem,5.5vw,4rem);
+  font-weight:800;line-height:1.06;
+  margin-bottom:.8rem;letter-spacing:-.025em;
+}
 .typed-wrap{display:block;color:var(--accent);}
-.t-cur{display:inline-block;width:3px;height:.82em;background:var(--accent);margin-left:3px;vertical-align:middle;animation:blink .75s step-end infinite;}
+.t-cur{
+  display:inline-block;width:3px;height:.82em;
+  background:var(--accent);margin-left:3px;
+  vertical-align:middle;animation:blink .75s step-end infinite;
+}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
-.hero-tag{font-family:'IBM Plex Mono',monospace;font-size:.78rem;color:var(--muted);margin-bottom:.6rem;letter-spacing:.04em;}
+.hero-tag{font-family:'IBM Plex Mono',monospace;font-size:.78rem;color:var(--muted);margin-bottom:.6rem;}
 .hero-sub{font-size:.95rem;color:var(--soft);max-width:500px;line-height:1.8;margin-bottom:2.5rem;}
 .hero-btns{display:flex;gap:1rem;flex-wrap:wrap;}
 
-/* ABOUT */
+/* ── ABOUT ── */
 .about-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:3.5rem;align-items:start;}
 .about-text p{color:var(--soft);margin-bottom:1rem;font-size:.93rem;line-height:1.8;}
 .about-text strong{color:var(--text);font-weight:500;}
-.about-q{margin-top:1.4rem;border-left:2px solid var(--accent);padding:.9rem 1.1rem;font-size:.88rem;color:var(--accent-light);font-style:italic;line-height:1.7;background:var(--accent-dim);border-radius:0 4px 4px 0;}
+.about-q{
+  margin-top:1.4rem;border-left:2px solid var(--accent);
+  padding:.9rem 1.1rem;font-size:.88rem;color:var(--accent-light);
+  font-style:italic;line-height:1.7;
+  background:var(--accent-dim);border-radius:0 4px 4px 0;
+}
+
+/* ── STAT CARDS ── */
 .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:.85rem;}
-.stat-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1.3rem;transition:border-color .3s,transform .3s;position:relative;overflow:hidden;}
-.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0;transition:opacity .3s;}
+.stat-card{
+  background:var(--card2);border:1px solid var(--border);
+  border-radius:8px;padding:1.3rem;
+  transition:border-color .25s,transform .25s;
+  position:relative;overflow:hidden;
+}
+.stat-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--accent),transparent);
+  opacity:0;transition:opacity .25s;
+}
 .stat-card:hover::before{opacity:1;}
 .stat-card:hover{border-color:var(--accent);transform:translateY(-2px);}
-.stat-num{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:var(--accent);line-height:1;margin-bottom:.35rem;}
-.stat-lbl{font-size:.75rem;color:var(--muted);line-height:1.5;}
+.stat-num{
+  font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;
+  color:var(--accent);line-height:1;margin-bottom:.35rem;
+}
+.stat-lbl{font-size:.74rem;color:var(--muted);line-height:1.5;}
 
-/* PROOF OF IMPACT */
-.proof-list{display:flex;flex-direction:column;gap:.75rem;}
+/* ── PROOF OF IMPACT ── */
+.proof-list{display:flex;flex-direction:column;gap:.7rem;}
 .proof-item{
   display:flex;align-items:flex-start;gap:.9rem;
-  background:var(--card);border:1px solid var(--border);
-  border-radius:8px;padding:1rem 1.25rem;
+  background:var(--card2);border:1px solid var(--border);
+  border-radius:8px;padding:1rem 1.25rem 1rem 1rem;
   font-size:.9rem;color:var(--soft);line-height:1.75;
-  transition:border-color .3s,transform .25s,background .25s;
-  cursor:none;position:relative;
+  transition:border-color .25s,transform .2s,background .2s;
+  position:relative;
 }
-.proof-item:hover{border-color:var(--accent);transform:translateX(5px);background:rgba(37,99,235,.05);}
-.proof-item.highlight-proj{border-color:var(--accent);background:rgba(37,99,235,.12);transform:translateX(5px);}
-.proof-item .proj-badge{
+.proof-item:hover{border-color:var(--accent);transform:translateX(4px);background:rgba(37,99,235,.05);}
+.proj-badge{
   position:absolute;right:1rem;top:50%;transform:translateY(-50%);
-  font-family:'IBM Plex Mono',monospace;font-size:.6rem;
+  font-family:'IBM Plex Mono',monospace;font-size:.59rem;
   letter-spacing:.08em;text-transform:uppercase;
-  color:var(--accent);opacity:0;
-  transition:opacity .2s;white-space:nowrap;
+  color:var(--accent);opacity:0;transition:opacity .18s;white-space:nowrap;
 }
 .proof-item:hover .proj-badge{opacity:1;}
-.pcheck{color:var(--accent);font-weight:600;flex-shrink:0;margin-top:.15rem;font-size:.85rem;}
+.pcheck{color:var(--accent);font-weight:700;flex-shrink:0;margin-top:.18rem;font-size:.82rem;}
 .proof-item strong{color:var(--text);font-weight:500;}
 .metric{color:var(--accent-light);font-weight:500;}
 
-/* SKILLS */
-.skills-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;}
-.skill-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.5rem 1rem;text-align:center;transition:border-color .3s,background .3s,transform .25s;position:relative;overflow:hidden;}
-.skill-card::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at center,var(--accent-dim) 0%,transparent 70%);opacity:0;transition:opacity .3s;}
+/* ── SKILLS ── */
+.skills-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.9rem;}
+.skill-card{
+  background:var(--card2);border:1px solid var(--border);
+  border-radius:10px;padding:1.4rem 1rem;text-align:center;
+  transition:border-color .25s,background .25s,transform .2s;
+  position:relative;overflow:hidden;
+}
+.skill-card::after{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at center,var(--accent-dim) 0%,transparent 70%);
+  opacity:0;transition:opacity .25s;
+}
 .skill-card:hover::after{opacity:1;}
-.skill-card:hover{border-color:var(--accent);transform:translateY(-4px);}
-.skill-card:hover .sk-ico{animation:bounce .5s ease;}
-@keyframes bounce{0%,100%{transform:translateY(0)}40%{transform:translateY(-10px)}70%{transform:translateY(-4px)}}
-.sk-ico{font-size:2rem;margin-bottom:.75rem;display:block;position:relative;z-index:1;}
-.sk-name{font-family:'IBM Plex Mono',monospace;font-size:.75rem;font-weight:500;color:var(--text);margin-bottom:.3rem;position:relative;z-index:1;}
-.sk-desc{font-size:.72rem;color:var(--muted);line-height:1.5;position:relative;z-index:1;}
+.skill-card:hover{border-color:var(--accent);transform:translateY(-3px);}
+.skill-card:hover .sk-ico{animation:bounce .45s ease;}
+@keyframes bounce{0%,100%{transform:translateY(0)}40%{transform:translateY(-9px)}70%{transform:translateY(-3px)}}
+.sk-ico{font-size:1.9rem;margin-bottom:.7rem;display:block;position:relative;z-index:1;}
+.sk-name{font-family:'IBM Plex Mono',monospace;font-size:.74rem;font-weight:500;color:var(--text);margin-bottom:.3rem;position:relative;z-index:1;}
+.sk-desc{font-size:.7rem;color:var(--muted);line-height:1.5;position:relative;z-index:1;}
 
-/* ── FLIP CARDS — SINGLE COLUMN FULL WIDTH ── */
-.proj-grid{display:grid;grid-template-columns:1fr;gap:1.4rem;}
-.flip-wrap{perspective:1400px;height:240px;}
-.flip-inner{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .65s cubic-bezier(.4,0,.2,1);}
+/* ── PROJECT FLIP CARDS — vertical stack ── */
+.proj-grid{display:grid;grid-template-columns:1fr;gap:1.3rem;}
+.flip-wrap{perspective:1400px;height:230px;}
+.flip-inner{
+  width:100%;height:100%;position:relative;
+  transform-style:preserve-3d;
+  transition:transform .6s cubic-bezier(.4,0,.2,1);
+  will-change:transform;
+}
 .flip-wrap:hover .flip-inner{transform:rotateY(180deg);}
 .flip-front,.flip-back{
   position:absolute;inset:0;backface-visibility:hidden;
-  border-radius:12px;border:1px solid var(--border);
-  display:grid;
+  border-radius:10px;border:1px solid var(--border);
 }
 .flip-front{
-  background:var(--card);
-  grid-template-columns:1fr auto;
-  grid-template-rows:1fr auto;
-  padding:1.8rem 2rem;
-  column-gap:2rem;
-  transition:border-color .3s;
+  background:var(--card2);
+  display:grid;grid-template-columns:1fr auto;grid-template-rows:1fr auto;
+  padding:1.7rem 2rem;column-gap:2rem;
+  transition:border-color .25s;
 }
 .flip-wrap:hover .flip-front{border-color:var(--accent);}
-.flip-front-main{grid-column:1;grid-row:1;display:flex;flex-direction:column;justify-content:flex-start;}
-.flip-front-tags{grid-column:1;grid-row:2;display:flex;gap:.4rem;flex-wrap:wrap;align-items:flex-end;}
-.flip-front-hint{grid-column:2;grid-row:1/3;display:flex;align-items:flex-end;justify-content:flex-end;}
 .flip-back{
-  background:linear-gradient(145deg,#0C1829,#090D1C);
+  background:linear-gradient(145deg,#0B1726,#080D1B);
   border-color:var(--accent);
   transform:rotateY(180deg);
-  grid-template-columns:1fr 1fr;
+  display:grid;grid-template-columns:1fr 1fr;
   grid-template-rows:auto 1fr auto;
-  padding:1.6rem 2rem;
-  column-gap:2.5rem;
+  padding:1.5rem 2rem;column-gap:2rem;
 }
-.b-lbl{font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);grid-column:1/3;grid-row:1;margin-bottom:.4rem;}
-.b-insights{grid-column:1/3;grid-row:2;display:grid;grid-template-columns:1fr 1fr;gap:.45rem .5rem;align-content:start;}
-.b-foot{grid-column:1/3;grid-row:3;display:flex;align-items:center;justify-content:flex-end;padding-top:.6rem;border-top:1px solid var(--border);}
-
-/* FIX: block display for insights so text flows naturally */
+.ffront-main{grid-column:1;grid-row:1;display:flex;flex-direction:column;}
+.ffront-tags{grid-column:1;grid-row:2;display:flex;gap:.35rem;flex-wrap:wrap;align-items:flex-end;}
+.ffront-hint{grid-column:2;grid-row:1/3;display:flex;align-items:flex-end;justify-content:flex-end;}
+.p-status{
+  font-family:'IBM Plex Mono',monospace;font-size:.59rem;letter-spacing:.12em;
+  text-transform:uppercase;padding:.25rem .7rem;border-radius:20px;
+  display:inline-block;margin-bottom:.75rem;
+  background:rgba(20,83,45,.3);color:#86EFAC;
+  border:1px solid rgba(134,239,172,.2);
+}
+.p-title{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700;margin-bottom:.45rem;line-height:1.25;}
+.p-desc{font-size:.83rem;color:var(--muted);line-height:1.7;}
+.p-tag{
+  font-family:'IBM Plex Mono',monospace;font-size:.59rem;
+  padding:.18rem .52rem;border-radius:3px;
+  background:var(--accent-dim);color:var(--accent-light);
+  border:1px solid rgba(37,99,235,.15);
+}
+.p-hint{
+  font-family:'IBM Plex Mono',monospace;font-size:.6rem;
+  color:var(--muted);writing-mode:vertical-rl;
+  display:flex;align-items:center;gap:.3rem;
+}
+.p-hint::before{content:'↻';color:var(--accent);writing-mode:horizontal-tb;font-size:.75rem;}
+.b-lbl{
+  grid-column:1/3;grid-row:1;
+  font-family:'IBM Plex Mono',monospace;font-size:.59rem;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:.3rem;
+}
+.b-insights{
+  grid-column:1/3;grid-row:2;
+  display:grid;grid-template-columns:1fr 1fr;gap:.4rem .8rem;align-content:start;
+}
+.b-foot{
+  grid-column:1/3;grid-row:3;display:flex;
+  align-items:center;justify-content:flex-end;
+  padding-top:.55rem;border-top:1px solid var(--border);
+}
 .b-ins{
-  display:block;
-  position:relative;
-  padding-left:1rem;
-  font-size:.78rem;
+  display:block;position:relative;padding-left:.95rem;
   font-family:'IBM Plex Sans',sans-serif;
-  color:var(--muted);
-  line-height:1.6;
+  font-size:.78rem;color:var(--muted);line-height:1.55;
 }
 .b-ins::before{
-  content:'→';
-  position:absolute;
-  left:0;top:.02em;
-  color:var(--accent);
-  font-size:.72rem;
-  font-family:'IBM Plex Mono',monospace;
+  content:'→';position:absolute;left:0;top:.05em;
+  color:var(--accent);font-size:.7rem;
 }
 .b-ins strong{color:var(--text);font-weight:500;}
+.b-link{
+  display:inline-flex;align-items:center;gap:.4rem;
+  font-family:'IBM Plex Mono',monospace;font-size:.68rem;
+  color:var(--accent);text-decoration:none;font-weight:500;
+  transition:gap .18s;
+}
+.b-link:hover{gap:.62rem;}
 
-.p-status{font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;padding:.28rem .7rem;border-radius:20px;display:inline-block;margin-bottom:.75rem;background:rgba(20,83,45,.3);color:#86EFAC;border:1px solid rgba(134,239,172,.2);}
-.p-title{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:.5rem;line-height:1.25;}
-.p-desc{font-size:.85rem;color:var(--muted);line-height:1.7;}
-.p-tag{font-family:'IBM Plex Mono',monospace;font-size:.6rem;padding:.2rem .55rem;border-radius:3px;background:var(--accent-dim);color:var(--accent-light);border:1px solid rgba(37,99,235,.18);}
-.p-hint{font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--muted);display:flex;align-items:center;gap:.4rem;writing-mode:vertical-rl;text-orientation:mixed;}
-.p-hint::before{content:'↻';color:var(--accent);font-size:.8rem;writing-mode:horizontal-tb;}
-.b-link{display:inline-flex;align-items:center;gap:.4rem;font-family:'IBM Plex Mono',monospace;font-size:.7rem;color:var(--accent);text-decoration:none;font-weight:500;transition:gap .2s;}
-.b-link:hover{gap:.65rem;}
+/* PROJECT HIGHLIGHT */
+.flip-wrap.proj-pulse .flip-front{
+  border-color:var(--accent);
+  box-shadow:0 0 0 2px var(--accent-glow);
+  animation:cardPop .5s ease;
+}
+@keyframes cardPop{0%,100%{transform:none}50%{transform:scale(1.01)}}
 
-/* PROJECT HIGHLIGHT PULSE */
-.flip-wrap.proj-pulse .flip-inner{animation:projPulse .6s ease;}
-@keyframes projPulse{0%,100%{transform:none}30%{transform:scale(1.01)}70%{transform:scale(.99)}}
-.flip-wrap.proj-pulse .flip-front{border-color:var(--accent);box-shadow:0 0 20px var(--accent-glow);}
-
-/* CONTACT */
-.contact-box{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:3.5rem;text-align:center;position:relative;overflow:hidden;}
-.contact-box::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);}
+/* ── CONTACT ── */
+.contact-box{
+  background:var(--card2);border:1px solid var(--border);
+  border-radius:12px;padding:3.5rem;text-align:center;
+  position:relative;overflow:hidden;
+}
+.contact-box::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--accent),transparent);
+}
 .c-eye{font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.25em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;}
 .c-h2{font-family:'Syne',sans-serif;font-size:clamp(1.5rem,3vw,2rem);font-weight:700;margin-bottom:.8rem;line-height:1.2;}
-.c-sub{font-size:.92rem;color:var(--soft);max-width:480px;margin:0 auto 2rem;line-height:1.8;}
+.c-sub{font-size:.9rem;color:var(--soft);max-width:480px;margin:0 auto 2rem;line-height:1.8;}
 .c-btns{display:flex;gap:.8rem;flex-wrap:wrap;justify-content:center;}
-.c-info{display:flex;gap:1.5rem;justify-content:center;margin-top:1.2rem;flex-wrap:wrap;align-items:center;}
-.c-info-item{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--muted);letter-spacing:.04em;}
-.c-info-link{color:var(--muted);text-decoration:none;transition:color .2s;}
+.c-info{display:flex;gap:1.5rem;justify-content:center;margin-top:1.2rem;flex-wrap:wrap;}
+.c-info-item{font-family:'IBM Plex Mono',monospace;font-size:.67rem;color:var(--muted);}
+.c-info-link{color:var(--muted);text-decoration:none;transition:color .18s;}
 .c-info-link:hover{color:var(--accent);}
 
-/* FOOTER */
+/* ── FOOTER ── */
 footer{border-top:1px solid var(--border);padding:1.8rem 0;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:.65rem;color:var(--muted);letter-spacing:.1em;}
 
-/* RESPONSIVE */
+/* ── PRELOADER ── */
+#preloader{
+  position:fixed;inset:0;background:var(--bg);z-index:10000;
+  display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;
+  transition:opacity .6s,visibility .6s;
+}
+#preloader.hide{opacity:0;visibility:hidden;pointer-events:none;}
+.pre-logo{font-family:'Syne',sans-serif;font-size:3.8rem;font-weight:800;color:var(--accent);letter-spacing:.12em;}
+.pre-bar-w{width:180px;height:1px;background:var(--border);overflow:hidden;}
+.pre-bar-f{height:100%;background:var(--accent);animation:fillB 1.8s ease forwards;}
+@keyframes fillB{from{width:0}to{width:100%}}
+.pre-line{font-family:'IBM Plex Mono',monospace;font-size:.63rem;letter-spacing:.2em;color:var(--muted);text-transform:uppercase;}
+
+/* ── RESPONSIVE ── */
 @media(max-width:900px){
-  nav{padding:1rem 1.5rem;}
-  nav.scrolled{padding:.65rem 1.5rem;}
-  .nav-links{gap:1.2rem;}
-  .flip-wrap{height:280px;}
-  .flip-back{grid-template-columns:1fr;}
   .b-insights{grid-template-columns:1fr;}
   .b-lbl,.b-foot{grid-column:1;}
 }
-@media(max-width:680px){
-  nav{padding:1rem;}
-  .nav-links{display:none;}
+@media(max-width:768px){
+  nav{padding:1rem 1.5rem;}
+  nav.scrolled{padding:.65rem 1.5rem;}
+  .nav-links{gap:1.2rem;}
   .hero{padding:7rem 0 3rem;}
   .about-grid{grid-template-columns:1fr;gap:2rem;}
   .skills-grid{grid-template-columns:repeat(2,1fr);}
-  .flip-wrap{height:auto;min-height:260px;}
-  .flip-front{grid-template-columns:1fr;grid-template-rows:auto auto auto;}
-  .flip-front-hint{grid-column:1;grid-row:3;writing-mode:horizontal-tb;justify-content:flex-start;margin-top:.5rem;}
-  .p-hint{writing-mode:horizontal-tb;}
-  .p-hint::before{writing-mode:horizontal-tb;}
-  .stat-grid{grid-template-columns:1fr 1fr;}
+  .flip-wrap{height:auto;min-height:240px;}
   .contact-box{padding:2rem 1.2rem;}
+}
+@media(max-width:480px){
+  nav{padding:.9rem 1rem;}
+  .nav-links{display:none;}
+  .stat-grid{grid-template-columns:1fr 1fr;}
 }
 </style>
 </head>
 <body>
 
-<canvas id="particles"></canvas>
-<div class="blob b1"></div>
-<div class="blob b2"></div>
-<div class="blob b3"></div>
-<div class="cur-dot" id="curDot"></div>
-<div class="cur-ring" id="curRing"></div>
-
 <!-- PRELOADER -->
 <div id="preloader">
   <div class="pre-logo">AG</div>
-  <div class="pre-line">initializing portfolio_</div>
   <div class="pre-bar-w"><div class="pre-bar-f"></div></div>
+  <div class="pre-line">loading portfolio_</div>
 </div>
+
+<!-- BLOBS -->
+<div class="blob b1"></div>
+<div class="blob b2"></div>
 
 <!-- NAV -->
 <nav id="nav">
-  <div class="nav-logo mono">AG<span>.</span></div>
+  <div class="nav-logo" style="font-family:'Syne',sans-serif">AG<span style="color:var(--accent)">.</span></div>
   <div class="nav-right">
     <ul class="nav-links">
       <li><a href="#about">about</a></li>
@@ -298,6 +418,7 @@ footer{border-top:1px solid var(--border);padding:1.8rem 0;text-align:center;fon
   </div>
 </nav>
 
+<!-- SCROLL TO TOP -->
 <button id="toTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
 <div class="container">
@@ -309,12 +430,12 @@ footer{border-top:1px solid var(--border);padding:1.8rem 0;text-align:center;fon
       I analyze data to<br/>uncover
       <span class="typed-wrap"><span id="typed-el"></span><span class="t-cur"></span></span>
     </h1>
-    <p class="hero-tag mono fu" style="transition-delay:.14s">// turning raw data into decisions that matter</p>
-    <p class="hero-sub fu" style="transition-delay:.18s">
+    <p class="hero-tag fu" style="font-family:'IBM Plex Mono',monospace;transition-delay:.13s">// turning raw data into decisions that matter</p>
+    <p class="hero-sub fu" style="transition-delay:.17s">
       B.Tech in Computer Science &amp; Technology · Presidency University, Bengaluru.<br/>
       Building end-to-end analytics pipelines — SQL to Python to Power BI.
     </p>
-    <div class="hero-btns fu" style="transition-delay:.24s">
+    <div class="hero-btns fu" style="transition-delay:.22s">
       <a href="#projects" class="btn btn-p">view_projects() →</a>
       <a href="#contact" class="btn btn-o">get_in_touch()</a>
     </div>
@@ -325,20 +446,20 @@ footer{border-top:1px solid var(--border);padding:1.8rem 0;text-align:center;fon
   <!-- ABOUT -->
   <section id="about">
     <div class="sec-eye fu">01 / about</div>
-    <div class="sec-title fu" style="transition-delay:.07s">I solve business problems<br/>using data.</div>
+    <div class="sec-title fu" style="transition-delay:.06s">I solve business problems<br/>using data.</div>
     <div class="about-grid">
-      <div class="about-text fu" style="transition-delay:.1s">
+      <div class="about-text fu" style="transition-delay:.09s">
         <p>I'm a Data Analyst based in Bengaluru who starts every project with a <strong>business question</strong>, not a dataset. The goal isn't analysis for its own sake — it's finding the insight that actually changes a decision.</p>
-        <p>My approach: <strong>SQL first</strong> — joins, CTEs, and window functions to explore complex multi-table structures. Then <strong>Python</strong> (Pandas, Matplotlib, Seaborn) for deep exploratory analysis. Then <strong>Power BI or Excel dashboards</strong> to communicate findings in ways stakeholders can act on.</p>
+        <p>My approach: <strong>SQL first</strong> — joins, CTEs, and window functions across complex multi-table structures. Then <strong>Python</strong> (Pandas, Matplotlib, Seaborn) for deep exploratory analysis. Then <strong>Power BI or Excel dashboards</strong> to put findings in front of the people who need to act on them.</p>
         <p>Three completed projects. Over <strong>130,000 records</strong> analyzed. Real numbers, real insights, real business impact.</p>
         <div class="about-q">"I don't just run queries — I translate data into decisions that move a business forward."</div>
       </div>
-      <div class="fu" style="transition-delay:.14s">
+      <div class="fu" style="transition-delay:.13s">
         <div class="stat-grid">
-          <div class="stat-card"><div class="stat-num" data-target="130">0</div><div class="stat-lbl">K+ records analyzed across 3 projects</div></div>
-          <div class="stat-card"><div class="stat-num" data-target="53">0</div><div class="stat-lbl">% revenue spike found via time-series analysis</div></div>
+          <div class="stat-card"><div class="stat-num count-up" data-target="130" data-suffix="K+">0</div><div class="stat-lbl">Records analyzed across 3 projects</div></div>
+          <div class="stat-card"><div class="stat-num count-up" data-target="53" data-suffix="%">0</div><div class="stat-lbl">Revenue spike found via time-series</div></div>
           <div class="stat-card"><div class="stat-num">2.27</div><div class="stat-lbl">Avg review score for late orders vs 4.29 on-time</div></div>
-          <div class="stat-card"><div class="stat-num" data-target="3">0</div><div class="stat-lbl">End-to-end projects delivered</div></div>
+          <div class="stat-card"><div class="stat-num count-up" data-target="3">0</div><div class="stat-lbl">End-to-end projects delivered</div></div>
         </div>
       </div>
     </div>
@@ -349,34 +470,34 @@ footer{border-top:1px solid var(--border);padding:1.8rem 0;text-align:center;fon
   <!-- PROOF OF IMPACT -->
   <section id="impact">
     <div class="sec-eye fu">02 / proof of impact</div>
-    <div class="sec-title fu" style="transition-delay:.07s">
+    <div class="sec-title fu" style="transition-delay:.06s">
       What I've actually done.<br/>
-      <span class="mono" style="font-size:.82rem;font-weight:400;color:var(--muted);">// click any item to jump to that project</span>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:.8rem;font-weight:400;color:var(--muted);">// click any item to jump to that project</span>
     </div>
     <div class="proof-list">
-      <div class="proof-item fu" style="transition-delay:.05s" data-proj="proj-olist" tabindex="0">
+      <div class="proof-item fu" data-proj="proj-olist" tabindex="0" style="transition-delay:.04s">
         <span class="pcheck">✔</span>
-        <span>Analyzed <strong class="metric">100K+ Brazilian e-commerce orders</strong> across 9 relational tables — uncovering revenue trends, delivery failures, and payment behavior from raw SQL all the way to an executive Power BI dashboard.</span>
+        <span>Analyzed <strong class="metric">100K+ Brazilian e-commerce orders</strong> across 9 relational tables — uncovering revenue trends, delivery failures, and payment behavior from raw SQL to executive Power BI dashboard.</span>
         <span class="proj-badge">→ Olist Project</span>
       </div>
-      <div class="proof-item fu" style="transition-delay:.1s" data-proj="proj-olist" tabindex="0">
+      <div class="proof-item fu" data-proj="proj-olist" tabindex="0" style="transition-delay:.08s">
         <span class="pcheck">✔</span>
-        <span>Quantified the business cost of delivery delays — review scores dropped from <strong class="metric">4.29 → 2.27 stars</strong> for late orders, giving leadership a clear, data-backed operational priority to act on.</span>
+        <span>Quantified the business cost of delivery delays — review scores dropped from <strong class="metric">4.29 → 2.27 stars</strong> for late orders, giving leadership a clear, data-backed operational priority.</span>
         <span class="proj-badge">→ Olist Project</span>
       </div>
-      <div class="proof-item fu" style="transition-delay:.15s" data-proj="proj-superstore" tabindex="0">
+      <div class="proof-item fu" data-proj="proj-superstore" tabindex="0" style="transition-delay:.12s">
         <span class="pcheck">✔</span>
         <span>Identified <strong class="metric">Tables &amp; Bookcases as persistent loss-makers</strong> driving over -$17K in retail losses, with SQL window functions pinpointing discount bands above 40% as the root cause.</span>
         <span class="proj-badge">→ Superstore Project</span>
       </div>
-      <div class="proof-item fu" style="transition-delay:.2s" data-proj="proj-hr" tabindex="0">
+      <div class="proof-item fu" data-proj="proj-hr" tabindex="0" style="transition-delay:.16s">
         <span class="pcheck">✔</span>
         <span>Analyzed <strong class="metric">~32,000 City of Chicago employee records</strong> to reveal salary skew — a small subset of roles captured a disproportionate share of total payroll across departments.</span>
         <span class="proj-badge">→ HR Project</span>
       </div>
-      <div class="proof-item fu" style="transition-delay:.25s" data-proj="proj-olist" tabindex="0">
+      <div class="proof-item fu" data-proj="proj-olist" tabindex="0" style="transition-delay:.2s">
         <span class="pcheck">✔</span>
-        <span>Detected a <strong class="metric">~53% revenue spike in November 2017</strong> via time-series analysis — confirming the business case for seasonal demand planning and targeted promotional strategy.</span>
+        <span>Detected a <strong class="metric">~53% revenue spike in November 2017</strong> via time-series analysis — confirming Black Friday's impact and the case for seasonal demand planning.</span>
         <span class="proj-badge">→ Olist Project</span>
       </div>
     </div>
@@ -387,8 +508,8 @@ footer{border-top:1px solid var(--border);padding:1.8rem 0;text-align:center;fon
   <!-- SKILLS -->
   <section id="skills">
     <div class="sec-eye fu">03 / skills</div>
-    <div class="sec-title fu" style="transition-delay:.07s">Tools I use to solve<br/>data problems.</div>
-    <div class="skills-grid fu" style="transition-delay:.11s">
+    <div class="sec-title fu" style="transition-delay:.06s">Tools I use to solve<br/>data problems.</div>
+    <div class="skills-grid fu" style="transition-delay:.1s">
       <div class="skill-card"><span class="sk-ico">🐍</span><div class="sk-name">Python</div><div class="sk-desc">Pandas · NumPy · Matplotlib · Seaborn</div></div>
       <div class="skill-card"><span class="sk-ico">🗄️</span><div class="sk-name">SQL</div><div class="sk-desc">Joins · CTEs · Window Functions · MySQL</div></div>
       <div class="skill-card"><span class="sk-ico">📊</span><div class="sk-name">Power BI</div><div class="sk-desc">DAX · KPI Cards · YoY Analysis</div></div>
@@ -405,33 +526,31 @@ footer{border-top:1px solid var(--border);padding:1.8rem 0;text-align:center;fon
   <!-- PROJECTS -->
   <section id="projects">
     <div class="sec-eye fu">04 / projects</div>
-    <div class="sec-title fu" style="transition-delay:.07s">
+    <div class="sec-title fu" style="transition-delay:.06s">
       End-to-end work.<br/>
-      <span class="mono" style="font-size:.82rem;font-weight:400;color:var(--muted);">// hover a card to flip and see key insights</span>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:.8rem;font-weight:400;color:var(--muted);">// hover a card to flip and see key insights</span>
     </div>
-    <div class="proj-grid fu" style="transition-delay:.11s">
+    <div class="proj-grid fu" style="transition-delay:.1s">
 
       <!-- PROJECT 1 — SUPERSTORE -->
       <div class="flip-wrap" id="proj-superstore">
         <div class="flip-inner">
           <div class="flip-front">
-            <div class="flip-front-main">
+            <div class="ffront-main">
               <span class="p-status">✓ completed</span>
               <div class="p-title">Superstore Profitability Analysis</div>
-              <p class="p-desc">A retail profitability deep-dive — identifying which sub-categories, regions, and discount strategies were destroying margins, backed by SQL and Power BI.</p>
+              <p class="p-desc">Retail profitability deep-dive — identifying which sub-categories, regions, and discount strategies were destroying margins, backed by SQL and Power BI.</p>
             </div>
-            <div class="flip-front-tags">
-              <span class="p-tag">Python</span><span class="p-tag">SQL</span><span class="p-tag">Power BI</span><span class="p-tag">DAX</span>
-            </div>
-            <div class="flip-front-hint"><span class="p-hint">hover to flip</span></div>
+            <div class="ffront-tags"><span class="p-tag">Python</span><span class="p-tag">SQL</span><span class="p-tag">Power BI</span><span class="p-tag">DAX</span></div>
+            <div class="ffront-hint"><span class="p-hint">hover to flip</span></div>
           </div>
           <div class="flip-back">
             <div class="b-lbl">// key insights</div>
             <div class="b-insights">
-              <p class="b-ins"><strong>Tables &amp; Bookcases</strong> drove over <strong>-$17K</strong> in losses — persistent across all regions regardless of sales volume.</p>
-              <p class="b-ins">Discounts above <strong>40%</strong> directly correlated with negative margins — a clear pricing strategy failure confirmed by SQL analysis.</p>
+              <p class="b-ins"><strong>Tables &amp; Bookcases</strong> drove over <strong>-$17K</strong> in losses across all regions regardless of sales volume.</p>
+              <p class="b-ins">Discounts above <strong>40%</strong> correlated with negative margins — confirmed by correlation analysis (r = -0.796).</p>
               <p class="b-ins">The <strong>West region</strong> was the only consistent profit driver; Central required urgent strategic review.</p>
-              <p class="b-ins">CTEs and window functions ranked every sub-category by loss — evidence-based, not guesswork.</p>
+              <p class="b-ins">SQL CTEs and window functions ranked every sub-category by loss — evidence-based, not guesswork.</p>
             </div>
             <div class="b-foot"><a href="https://github.com/ABHINEET2612/Superstore_Profitability_Analysis" target="_blank" class="b-link">view_repo() →</a></div>
           </div>
@@ -442,23 +561,21 @@ footer{border-top:1px solid var(--border);padding:1.8rem 0;text-align:center;fon
       <div class="flip-wrap" id="proj-olist">
         <div class="flip-inner">
           <div class="flip-front">
-            <div class="flip-front-main">
+            <div class="ffront-main">
               <span class="p-status">✓ completed</span>
               <div class="p-title">Olist Brazilian E-Commerce Analysis</div>
-              <p class="p-desc">A SQL-first exploration of 100K+ orders across 9 tables — uncovering why delivery failures were tanking satisfaction and where Brazil's revenue growth was hiding.</p>
+              <p class="p-desc">SQL-first exploration of 100K+ orders across 9 tables — uncovering why delivery failures were tanking satisfaction and where revenue growth was hiding.</p>
             </div>
-            <div class="flip-front-tags">
-              <span class="p-tag">Python</span><span class="p-tag">SQL</span><span class="p-tag">Power BI</span><span class="p-tag">9 tables</span>
-            </div>
-            <div class="flip-front-hint"><span class="p-hint">hover to flip</span></div>
+            <div class="ffront-tags"><span class="p-tag">Python</span><span class="p-tag">SQL</span><span class="p-tag">Power BI</span><span class="p-tag">9 tables</span></div>
+            <div class="ffront-hint"><span class="p-hint">hover to flip</span></div>
           </div>
           <div class="flip-back">
             <div class="b-lbl">// key insights</div>
             <div class="b-insights">
-              <p class="b-ins">Late deliveries crashed scores from <strong>4.29 → 2.27 stars</strong> — delivery reliability is the single biggest satisfaction lever.</p>
-              <p class="b-ins">A <strong>~53% revenue spike</strong> in November 2017 confirmed Black Friday's impact — seasonal demand planning is non-negotiable.</p>
+              <p class="b-ins">Late deliveries crashed scores from <strong>4.29 → 2.27 stars</strong> — delivery reliability is the #1 satisfaction lever.</p>
+              <p class="b-ins"><strong>~53% revenue spike</strong> in Nov 2017 confirmed Black Friday's impact — seasonal planning is critical.</p>
               <p class="b-ins">São Paulo drove <strong>~37% of revenue and ~49% of customers</strong>; northern states averaged 26–28 day delivery times.</p>
-              <p class="b-ins"><strong>~74% credit card, ~19% boleto</strong> — 1 in 5 customers require tailored payment strategy.</p>
+              <p class="b-ins"><strong>~74% credit card, ~19% boleto</strong> — 1 in 5 customers need alternative payment strategies.</p>
             </div>
             <div class="b-foot"><a href="https://github.com/ABHINEET2612/Olist_eCommerce_Analysis" target="_blank" class="b-link">view_repo() →</a></div>
           </div>
@@ -469,23 +586,21 @@ footer{border-top:1px solid var(--border);padding:1.8rem 0;text-align:center;fon
       <div class="flip-wrap" id="proj-hr">
         <div class="flip-inner">
           <div class="flip-front">
-            <div class="flip-front-main">
+            <div class="ffront-main">
               <span class="p-status">✓ completed</span>
               <div class="p-title">HR Employee Salary Analysis</div>
-              <p class="p-desc">A SQL and Excel-only analysis of ~32K City of Chicago employee records — revealing compensation skew, workforce concentration, and pay hierarchy without a single line of Python.</p>
+              <p class="p-desc">SQL and Excel-only analysis of ~32K City of Chicago employee records — revealing compensation skew, pay hierarchy, and workforce imbalance without a single line of Python.</p>
             </div>
-            <div class="flip-front-tags">
-              <span class="p-tag">SQL</span><span class="p-tag">Excel</span><span class="p-tag">Power Query</span><span class="p-tag">MySQL</span>
-            </div>
-            <div class="flip-front-hint"><span class="p-hint">hover to flip</span></div>
+            <div class="ffront-tags"><span class="p-tag">SQL</span><span class="p-tag">Excel</span><span class="p-tag">Power Query</span><span class="p-tag">MySQL</span></div>
+            <div class="ffront-hint"><span class="p-hint">hover to flip</span></div>
           </div>
           <div class="flip-back">
             <div class="b-lbl">// key insights</div>
             <div class="b-insights">
               <p class="b-ins">Salary distribution is <strong>heavily right-skewed</strong> — a small subset of roles captures a disproportionate share of total payroll.</p>
-              <p class="b-ins"><strong>Workforce concentrated</strong> in a limited number of departments, indicating structural imbalance in resource allocation.</p>
-              <p class="b-ins">Window functions (RANK, NTILE, PERCENT_RANK) exposed a <strong>clear salary hierarchy</strong> within departments — top earners are few but impactful.</p>
-              <p class="b-ins">Excel Power Query cleaned <strong>~32K records</strong>; 4-sheet dashboard made findings accessible for non-technical stakeholders.</p>
+              <p class="b-ins"><strong>Workforce concentrated</strong> in a limited number of departments, signaling structural resource allocation imbalance.</p>
+              <p class="b-ins">Window functions (RANK, NTILE, PERCENT_RANK) exposed a <strong>clear pay hierarchy</strong> — top earners are few but impactful.</p>
+              <p class="b-ins">Excel Power Query cleaned <strong>~32K records</strong>; 4-sheet dashboard made findings accessible to non-technical stakeholders.</p>
             </div>
             <div class="b-foot"><a href="https://github.com/ABHINEET2612/HR_Employee_Analysis" target="_blank" class="b-link">view_repo() →</a></div>
           </div>
@@ -502,7 +617,7 @@ footer{border-top:1px solid var(--border);padding:1.8rem 0;text-align:center;fon
     <div class="contact-box fu">
       <div class="c-eye">05 / contact</div>
       <h2 class="c-h2">Open to Data Analyst roles.<br/>Let's connect.</h2>
-      <p class="c-sub">Actively seeking DA internships and full-time roles in Bengaluru. I bring SQL, Python, and Power BI — plus a habit of finding insights that actually matter.</p>
+      <p class="c-sub">Actively seeking DA internships and full-time roles in Bengaluru. I bring SQL, Python, and Power BI — and a habit of finding insights that actually matter.</p>
       <div class="c-btns">
         <a href="https://www.linkedin.com/in/abhineet-gaur-b11a0a280/" target="_blank" class="btn btn-p">linkedin →</a>
         <a href="https://github.com/ABHINEET2612" target="_blank" class="btn btn-o">github →</a>
@@ -511,8 +626,8 @@ footer{border-top:1px solid var(--border);padding:1.8rem 0;text-align:center;fon
       </div>
       <div class="c-info">
         <span class="c-info-item">📍 Bengaluru, Karnataka</span>
-        <span class="c-info-item">📱 +91 6360861992</span>
-        <span class="c-info-item"><a href="mailto:gaurabhineet2612@gmail.com" class="c-info-link">gaurabhineet2612@gmail.com</a></span>
+        <span class="c-info-item">+91 6360861992</span>
+        <a href="mailto:gaurabhineet2612@gmail.com" class="c-info-link" style="font-family:'IBM Plex Mono',monospace;font-size:.67rem;">gaurabhineet2612@gmail.com</a>
       </div>
     </div>
   </section>
@@ -521,122 +636,106 @@ footer{border-top:1px solid var(--border);padding:1.8rem 0;text-align:center;fon
 
 <footer>
   <div class="container">
-    <span style="color:var(--accent)">AG</span> · Abhineet Gaur · Data Analyst · Bengaluru &nbsp;·&nbsp; <span class="mono">built_with_intention()</span>
+    <span style="color:var(--accent)">AG</span> · Abhineet Gaur · Data Analyst · Bengaluru &nbsp;·&nbsp;
+    <span style="font-family:'IBM Plex Mono',monospace">built_with_intention()</span>
   </div>
 </footer>
 
 <script>
-/* PRELOADER */
-window.addEventListener('load',()=>{
-  setTimeout(()=>{
-    const pl=document.getElementById('preloader');
+// ── PRELOADER — minimal delay ──
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    const pl = document.getElementById('preloader');
     pl.classList.add('hide');
-    setTimeout(()=>{
-      pl.style.display='none';
+    setTimeout(() => {
+      pl.style.display = 'none';
+      document.querySelectorAll('.hero .fu').forEach(el => el.classList.add('on'));
       startTyped();
       initFadeUp();
       initCounters();
-      document.querySelectorAll('.hero .fu').forEach(el=>el.classList.add('on'));
-    },720);
-  },2400);
+    }, 620);
+  }, 1800); // reduced from 2400ms
 });
 
-/* CURSOR */
-const dot=document.getElementById('curDot'),ring=document.getElementById('curRing');
-let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
-document.addEventListener('mouseover',e=>{e.target.closest('a,button,.proof-item')?ring.classList.add('big'):ring.classList.remove('big');});
-(function loop(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();
+// ── NAV + SCROLL TO TOP — passive listener for perf ──
+const nav = document.getElementById('nav');
+const toTop = document.getElementById('toTop');
+let ticking = false;
+window.addEventListener('scroll', () => {
+  if (!ticking) {
+    requestAnimationFrame(() => {
+      const s = window.scrollY;
+      s > 60 ? nav.classList.add('scrolled') : nav.classList.remove('scrolled');
+      s > 400 ? toTop.classList.add('show') : toTop.classList.remove('show');
+      ticking = false;
+    });
+    ticking = true;
+  }
+}, { passive: true });
 
-/* NAV + SCROLL TO TOP */
-const nav=document.getElementById('nav'),toTop=document.getElementById('toTop');
-window.addEventListener('scroll',()=>{
-  const s=window.scrollY;
-  s>60?nav.classList.add('scrolled'):nav.classList.remove('scrolled');
-  s>400?toTop.classList.add('show'):toTop.classList.remove('show');
-});
-
-/* PROOF OF IMPACT → PROJECT LINK */
-document.querySelectorAll('.proof-item[data-proj]').forEach(item=>{
-  const handler=()=>{
-    const targetId=item.getAttribute('data-proj');
-    const target=document.getElementById(targetId);
-    if(!target)return;
-    // scroll to projects section first
-    target.scrollIntoView({behavior:'smooth',block:'center'});
-    // pulse the card
-    setTimeout(()=>{
-      target.classList.add('proj-pulse');
-      target.querySelector('.flip-front').style.borderColor='var(--accent)';
-      target.querySelector('.flip-front').style.boxShadow='0 0 24px var(--accent-glow)';
-      setTimeout(()=>{
-        target.classList.remove('proj-pulse');
-        target.querySelector('.flip-front').style.borderColor='';
-        target.querySelector('.flip-front').style.boxShadow='';
-      },1800);
-    },600);
-  };
-  item.addEventListener('click',handler);
-  item.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' ')handler();});
-});
-
-/* TYPED TEXT */
-function startTyped(){
-  const phrases=['business insights.','clear decisions.','hidden patterns.','the story in data.','what matters most.'];
-  let pi=0,ci=0,del=false;
-  const el=document.getElementById('typed-el');
-  function tick(){
-    const cur=phrases[pi];
-    if(!del){el.textContent=cur.slice(0,ci+1);ci++;if(ci===cur.length){del=true;setTimeout(tick,2000);return;}setTimeout(tick,68);}
-    else{el.textContent=cur.slice(0,ci-1);ci--;if(ci===0){del=false;pi=(pi+1)%phrases.length;}setTimeout(tick,36);}
+// ── TYPED TEXT ──
+function startTyped() {
+  const phrases = ['business insights.', 'clear decisions.', 'hidden patterns.', 'the story in data.', 'what matters most.'];
+  let pi = 0, ci = 0, del = false;
+  const el = document.getElementById('typed-el');
+  function tick() {
+    const cur = phrases[pi];
+    if (!del) {
+      el.textContent = cur.slice(0, ci + 1); ci++;
+      if (ci === cur.length) { del = true; setTimeout(tick, 1900); return; }
+      setTimeout(tick, 70);
+    } else {
+      el.textContent = cur.slice(0, ci - 1); ci--;
+      if (ci === 0) { del = false; pi = (pi + 1) % phrases.length; }
+      setTimeout(tick, 38);
+    }
   }
   tick();
 }
 
-/* FADE UP ON SCROLL */
-function initFadeUp(){
-  const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on');});},{threshold:.1});
-  document.querySelectorAll('.fu:not(.hero .fu)').forEach(el=>obs.observe(el));
+// ── FADE UP — single observer, no per-element overhead ──
+function initFadeUp() {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); obs.unobserve(e.target); } });
+  }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+  document.querySelectorAll('.fu:not(.hero .fu)').forEach(el => obs.observe(el));
 }
 
-/* COUNTER ANIMATION */
-function initCounters(){
-  const obs=new IntersectionObserver(entries=>{
-    entries.forEach(e=>{
-      if(e.isIntersecting){
-        const el=e.target,target=+el.getAttribute('data-target');
-        let v=0;const step=target/50;
-        const t=setInterval(()=>{v+=step;if(v>=target){v=target;clearInterval(t);}el.textContent=Math.floor(v);},25);
-        obs.unobserve(el);
-      }
+// ── COUNT UP ANIMATION ──
+function initCounters() {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const el = e.target;
+      const target = +el.getAttribute('data-target');
+      const suffix = el.getAttribute('data-suffix') || '';
+      let v = 0; const step = target / 48;
+      const timer = setInterval(() => {
+        v += step;
+        if (v >= target) { v = target; clearInterval(timer); }
+        el.textContent = Math.floor(v) + suffix;
+      }, 22);
+      obs.unobserve(el);
     });
-  },{threshold:.5});
-  document.querySelectorAll('[data-target]').forEach(el=>obs.observe(el));
+  }, { threshold: 0.6 });
+  document.querySelectorAll('.count-up').forEach(el => obs.observe(el));
 }
 
-/* PARTICLES */
-(function(){
-  const canvas=document.getElementById('particles'),ctx=canvas.getContext('2d');
-  let W,H,pts=[];
-  const resize=()=>{W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;};
-  resize();window.addEventListener('resize',resize);
-  for(let i=0;i<55;i++)pts.push({x:Math.random()*window.innerWidth,y:Math.random()*window.innerHeight,vx:(Math.random()-.5)*.28,vy:(Math.random()-.5)*.28,r:Math.random()*1.4+.4});
-  function draw(){
-    ctx.clearRect(0,0,W,H);
-    pts.forEach((p,i)=>{
-      p.x+=p.vx;p.y+=p.vy;
-      if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;
-      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-      ctx.fillStyle='rgba(37,99,235,.55)';ctx.fill();
-      for(let j=i+1;j<pts.length;j++){
-        const q=pts[j],dx=p.x-q.x,dy=p.y-q.y,d=Math.sqrt(dx*dx+dy*dy);
-        if(d<130){ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.strokeStyle=`rgba(37,99,235,${.15*(1-d/130)})`;ctx.lineWidth=.5;ctx.stroke();}
-      }
-    });
-    requestAnimationFrame(draw);
-  }
-  draw();
-})();
+// ── PROOF ITEMS → scroll to project ──
+document.querySelectorAll('.proof-item[data-proj]').forEach(item => {
+  const go = () => {
+    const id = item.getAttribute('data-proj');
+    const target = document.getElementById(id);
+    if (!target) return;
+    target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    setTimeout(() => {
+      target.classList.add('proj-pulse');
+      setTimeout(() => target.classList.remove('proj-pulse'), 1600);
+    }, 550);
+  };
+  item.addEventListener('click', go);
+  item.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') go(); });
+});
 </script>
 </body>
 </html>
