@@ -251,7 +251,14 @@ section{padding:var(--section) 0;}
 .b-link:hover{gap:.6rem;}
 
 /* project pulse for proof-link */
-.flip-wrap.proj-pulse{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-glow);}
+.flip-wrap.proj-pulse{animation:projFlash 1.6s ease forwards;border-radius:10px;}
+@keyframes projFlash{
+  0%  {border-color:var(--border);box-shadow:none;}
+  20% {border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-glow),0 0 28px var(--accent-glow);}
+  50% {border-color:var(--accent-light);box-shadow:0 0 0 8px rgba(37,99,235,.08),0 0 44px var(--accent-glow);}
+  80% {border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow);}
+  100%{border-color:var(--border);box-shadow:none;}
+}
 
 /* ── CONTACT ── */
 .contact-box{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:clamp(1.8rem,5vw,3.5rem);text-align:center;position:relative;overflow:hidden;}
@@ -444,7 +451,7 @@ footer{border-top:1px solid var(--border);padding:1.5rem 0;text-align:center;fon
               <p class="p-desc">Retail profitability deep-dive — identifying which sub-categories, regions, and discount strategies were destroying margins, backed by SQL and Power BI.</p>
             </div>
             <div class="ffront-tags"><span class="p-tag">Python</span><span class="p-tag">SQL</span><span class="p-tag">Power BI</span><span class="p-tag">DAX</span></div>
-            <div class="ffront-hint">tap to see insights</div>
+
           </div>
           <div class="flip-back">
             <div class="b-lbl">// key insights</div>
@@ -469,7 +476,7 @@ footer{border-top:1px solid var(--border);padding:1.5rem 0;text-align:center;fon
               <p class="p-desc">SQL-first exploration of 100K+ orders across 9 tables — uncovering why delivery failures were tanking satisfaction and where revenue growth was hiding.</p>
             </div>
             <div class="ffront-tags"><span class="p-tag">Python</span><span class="p-tag">SQL</span><span class="p-tag">Power BI</span><span class="p-tag">9 tables</span></div>
-            <div class="ffront-hint">tap to see insights</div>
+
           </div>
           <div class="flip-back">
             <div class="b-lbl">// key insights</div>
@@ -494,7 +501,7 @@ footer{border-top:1px solid var(--border);padding:1.5rem 0;text-align:center;fon
               <p class="p-desc">SQL and Excel-only analysis of ~32K City of Chicago employee records — revealing compensation skew, pay hierarchy, and workforce imbalance without a single line of Python.</p>
             </div>
             <div class="ffront-tags"><span class="p-tag">SQL</span><span class="p-tag">Excel</span><span class="p-tag">Power Query</span><span class="p-tag">MySQL</span></div>
-            <div class="ffront-hint">tap to see insights</div>
+
           </div>
           <div class="flip-back">
             <div class="b-lbl">// key insights</div>
@@ -538,8 +545,8 @@ footer{border-top:1px solid var(--border);padding:1.5rem 0;text-align:center;fon
 
 <footer>
   <div class="container">
-    <span style="color:var(--accent)">AG</span> · Abhineet Gaur · Data Analyst · Bengaluru &nbsp;·&nbsp;
-    <span style="font-family:'IBM Plex Mono',monospace">built_with_intention()</span>
+
+    <span style="color:var(--accent)">AG</span> · Abhineet Gaur · Data Analyst · Bengaluru
   </div>
 </footer>
 
@@ -683,10 +690,15 @@ document.querySelectorAll('.proof-item[data-proj]').forEach(item => {
     if (!target) return;
     target.scrollIntoView({ behavior: 'smooth', block: 'center' });
     setTimeout(() => {
+      target.classList.remove('proj-pulse');
+      void target.offsetWidth;
       target.classList.add('proj-pulse');
-      // on mobile, also flip open
-      if (isTouch() || window.innerWidth < 768) target.classList.add('flipped');
-      setTimeout(() => target.classList.remove('proj-pulse'), 1600);
+      // on mobile, also flip open and close others
+      if (isTouch() || window.innerWidth < 768) {
+        document.querySelectorAll('.flip-wrap').forEach(c => { if (c !== target) c.classList.remove('flipped'); });
+        target.classList.add('flipped');
+      }
+      setTimeout(() => target.classList.remove('proj-pulse'), 1700);
     }, 500);
   };
   item.addEventListener('click', go);
